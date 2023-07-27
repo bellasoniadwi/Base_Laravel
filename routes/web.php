@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FirebaseController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::routes();
+// Auth::routes();
 
-Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
+// Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+// Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
+// Route::get('/welcome', [FirebaseController::class, 'index'])->name('index');
+// Route::get('/welcome/show', [FirebaseController::class, 'show'])->name('show');
+// // Route::get('/welcome', [FirebaseController::class, 'store'])->name('store');
+
+Route::post('/', [FirebaseController::class, 'create']);
+Route::get('/', [FirebaseController::class, 'index']);
+Route::put('/', [FirebaseController::class, 'edit']);
+Route::delete('/', [FirebaseController::class, 'delete']);
