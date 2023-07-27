@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Route;
 */
 // Auth::routes();
 
-// Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-// Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
+Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
 // Route::get('/welcome', [FirebaseController::class, 'index'])->name('index');
 // Route::get('/welcome/show', [FirebaseController::class, 'show'])->name('show');
 // // Route::get('/welcome', [FirebaseController::class, 'store'])->name('store');
 
-Route::post('/', [FirebaseController::class, 'create']);
-Route::get('/', [FirebaseController::class, 'index']);
-Route::put('/', [FirebaseController::class, 'edit']);
-Route::delete('/', [FirebaseController::class, 'delete']);
+// Route::post('/student', [FirebaseController::class, 'create']);
+Route::get('/student', [FirebaseController::class, 'index'])->name('students');
+// Route::put('/student', [FirebaseController::class, 'edit']);
+// Route::delete('/student', [FirebaseController::class, 'delete']);

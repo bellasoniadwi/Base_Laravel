@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Google\Api\Service;
-use Google\Auth\Credentials\ServiceAccountCredentials;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-use \Kreait\Firebase\Database;
 use Google\Cloud\Firestore\FirestoreClient;
-
 
 class FirebaseController extends Controller
 {
@@ -19,19 +13,35 @@ class FirebaseController extends Controller
         ]);
         $collectionReference = $firestore->collection('students');
 
-        $documentReference = $collectionReference->document('UX5NBN9UZQrSBawArG5F');
-        $snapshot = $documentReference->snapshot();
+        // Get all documents from the collection
+        $documents = $collectionReference->documents();
 
+        // Initialize an empty array to hold the data
+        $data = [];
 
-         // Get the data from the snapshot
-         $data = $snapshot->data();
+        // Loop through each document to extract the data
+        foreach ($documents as $doc) {
+            // ambil semua data
+            $documentData = $doc->data();
 
-         // If you want to print the data as an array, you can use print_r or var_dump
-         print_r($data);
- 
-         // Alternatively, if you want to convert the data to JSON and print it
-         $jsonData = json_encode($data);
-         echo $jsonData;
+            // ambil value dari firestore
+            $name = $documentData['name'] ?? null;
+            $nim = $documentData['nim'] ?? null;
+            $angkatan = $documentData['angkatan'] ?? null;
+            $timestamps = $documentData['timestamps'] ?? null;
+            $image = $documentData['image'] ?? null;
 
+            // Add the extracted data to the $data array
+            $data[] = [
+                'name' => $name,
+                'nim' => $nim,
+                'angkatan' => $angkatan,
+                'timestamps' => $timestamps,
+                'image' => $image
+            ];
+        }
+
+        // Pass the data to the view
+        return view('pages.students', compact('data'));
     }
 }
