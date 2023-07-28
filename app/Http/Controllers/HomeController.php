@@ -14,26 +14,29 @@ class HomeController extends Controller
         ]);
         $collectionReference = $firestore->collection('students');
         $documents = $collectionReference->documents();
+
+        // Get the current month and year in the UTC timezone
+        $currentMonthYear = date('Y-m', strtotime('now'));
+        $totalStudentInAMonth = 0;
+        
         $data = [];
         foreach ($documents as $doc) {
             $documentData = $doc->data();
-            $name = $documentData['name'] ?? null;
-            $nim = $documentData['nim'] ?? null;
-            $angkatan = $documentData['angkatan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
-            $image = $documentData['image'] ?? null;
+
+            // Check if the data is recorded in the current month
+            $recordedMonthYear = date('Y-m', strtotime($timestamps));
+            if ($recordedMonthYear === $currentMonthYear) {
+                $totalStudentInAMonth++;
+            }
 
             $data[] = [
-                'name' => $name,
-                'nim' => $nim,
-                'angkatan' => $angkatan,
-                'timestamps' => $timestamps,
-                'image' => $image
+                'timestamps' => $timestamps
             ];
         }
 
         $totalStudents = count($data);
-        return view('pages.dashboard', compact('totalStudents'));
+        return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
     }
 
     public function tables()
