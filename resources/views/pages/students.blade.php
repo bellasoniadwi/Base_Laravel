@@ -61,6 +61,13 @@
                         $timestamp->setTimezone($timezone);
                     @endphp
                     <span class="text-secondary text-xs font-weight-bold">{{ $timestamp->format('H:i:s') }}</span>
+                  </td>
+                  <td>
+                    <div class="visible-print text-center">
+                      
+                      {!! QrCode::generate($student['name']); !!}
+                      <p>{{ $student['nim'] }}</p>
+                  </div>
                   </td>                
                   {{-- <td class="align-middle">
                     <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">

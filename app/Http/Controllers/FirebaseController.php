@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Google\Cloud\Firestore\FirestoreClient;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\HtmlString;
+
+
 
 class FirebaseController extends Controller
 {
@@ -39,6 +43,8 @@ class FirebaseController extends Controller
                 'timestamps' => $timestamps,
                 'image' => $image
             ];
+
+            QrCode::format('svg')->generate($name);
         }
 
         // Pass the data to the view
