@@ -25,6 +25,8 @@
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Angkatan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Datang</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kode QR</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lokasi</th>
                   {{-- <th class="text-secondary opacity-7"></th> --}}
                 </tr>
               </thead>
@@ -69,11 +71,11 @@
                       <p>{{ $student['nim'] }}</p>
                   </div>
                   </td>                
-                  {{-- <td class="align-middle">
-                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                      Edit
-                    </a>
-                  </td> --}}
+                  <td class="align-middle">
+                    <span class="badge badge-sm bg-gradient-success"><a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      Lihat Lokasi
+                    </a></span>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>

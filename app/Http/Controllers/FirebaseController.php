@@ -6,8 +6,6 @@ use Google\Cloud\Firestore\FirestoreClient;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\HtmlString;
 
-
-
 class FirebaseController extends Controller
 {
     public function index()
@@ -17,7 +15,8 @@ class FirebaseController extends Controller
         ]);
         $collectionReference = $firestore->collection('students');
 
-        // Get all documents from the collection
+        // Mengambil semua data pada collection
+        $query = $collectionReference->orderBy('timestamps', 'desc');
         $documents = $collectionReference->documents();
 
         // Initialize an empty array to hold the data
@@ -28,12 +27,17 @@ class FirebaseController extends Controller
             // ambil semua data
             $documentData = $doc->data();
 
-            // ambil value dari firestore
+            /// ambil value dari firestore
             $name = $documentData['name'] ?? null;
             $nim = $documentData['nim'] ?? null;
             $angkatan = $documentData['angkatan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
             $image = $documentData['image'] ?? null;
+            $latitude = $documentData['latitude'] ?? null;
+            $longitude = $documentData['longitude'] ?? null;
+
+            // generate url langsung dari lat, lang
+            $googleMapsUrl = sprintf('https://www.google.com/maps?q=%f,%f', $latitude, $longitude);
 
             // Add the extracted data to the $data array
             $data[] = [
@@ -41,7 +45,10 @@ class FirebaseController extends Controller
                 'nim' => $nim,
                 'angkatan' => $angkatan,
                 'timestamps' => $timestamps,
-                'image' => $image
+                'image' => $image,
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'googleMapsUrl' => $googleMapsUrl,
             ];
 
             QrCode::format('svg')->generate($name);
