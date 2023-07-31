@@ -8,7 +8,9 @@ return [
      * Default Firebase project
      * ------------------------------------------------------------------------
      */
-    'default' => env('FIREBASE_PROJECT', 'app'),
+    'project_id' => 'project-sinarindo',
+    'private_key' => base_path('project-sinarindo-firebase-adminsdk-3bnam-2662c3bef0.json'),
+    'default' => env('FIREBASE_PROJECT', 'Project-Sinarindo'),
 
     /*
      * ------------------------------------------------------------------------
@@ -16,7 +18,7 @@ return [
      * ------------------------------------------------------------------------
      */
     'projects' => [
-        'app' => [
+        'Project-Sinarindo' => [
             /*
              * ------------------------------------------------------------------------
              * Credentials / Service Account
@@ -47,7 +49,7 @@ return [
              *
              */
             'credentials' => [
-                'file' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+                'file' => base_path('project-sinarindo-firebase-adminsdk-3bnam-2662c3bef0.json'),
             ],
 
             /*
