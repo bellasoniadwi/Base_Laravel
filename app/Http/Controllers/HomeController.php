@@ -43,4 +43,9 @@ class HomeController extends Controller
     {
         return view('pages.tables');
     }
+
+    public function signin()
+    {
+        return view('newauth.signin');
+    }
 }

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
 Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
+Route::get('/signin', [HomeController::class, 'signin'])->name('signin');
 // Route::get('/welcome', [FirebaseController::class, 'index'])->name('index');
 // Route::get('/welcome/show', [FirebaseController::class, 'show'])->name('show');
 // // Route::get('/welcome', [FirebaseController::class, 'store'])->name('store');
