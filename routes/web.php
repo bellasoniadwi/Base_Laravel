@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Auth::routes();
+Auth::routes();
 
 Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
 Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
