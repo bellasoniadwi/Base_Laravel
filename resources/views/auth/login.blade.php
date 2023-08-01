@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png')}}">
     <title>
         Login
     </title>
@@ -19,6 +19,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.1.0') }}" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="bg-gray-200">
@@ -36,8 +37,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form id="login-form" role="form" class="text-start">
-                                    @csrf
+                                <form id="login-form" onsubmit="handleLogin(event)">
                                     <div class="input-group input-group-outline my-3">
                                         <label class="form-label">Email</label>
                                         <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror">
@@ -57,13 +57,11 @@
                                         @enderror
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
-                                            in</button>
+                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                                     </div>
                                     <p class="mt-4 text-sm text-center">
                                         Don't have an account?
-                                        <a href="../pages/sign-up.html"
-                                            class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                        <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                                     </p>
                                 </form>
                             </div>
@@ -92,8 +90,8 @@
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('assets/js/material-dashboard.min.js?v=3.1.0') }}"></script>
     <!-- Initialize Firebase and handle login form submission -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js"></script>
     <script>
         // Initialize Firebase with the provided config details
         var firebaseConfig = {
@@ -123,7 +121,8 @@
                 // Create a hidden form to submit the token to the Laravel backend
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '{{ route('login') }}';
+                // Replace 'YOUR_LOGIN_ROUTE' with the actual URL of your login route in the backend
+                form.action = route('login');
 
                 const tokenInput = document.createElement('input');
                 tokenInput.type = 'hidden';
