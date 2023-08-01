@@ -16,37 +16,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
-
-// Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
-Route::get('/signin', [HomeController::class, 'signin'])->name('signin');
-// Route::get('/welcome', [FirebaseController::class, 'index'])->name('index');
-// Route::get('/welcome/show', [FirebaseController::class, 'show'])->name('show');
-// // Route::get('/welcome', [FirebaseController::class, 'store'])->name('store');
-
-// Route::post('/student', [FirebaseController::class, 'create']);
-Route::get('/student', [FirebaseController::class, 'index'])->name('students');
-// Route::put('/student', [FirebaseController::class, 'edit']);
-// Route::delete('/student', [FirebaseController::class, 'delete']);
-
-
-//coba firebase authentication
-Route::get('/', function () {
-    return view('auth.login');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/student', [FirebaseController::class, 'index'])->name('students');
 });
+//coba firebase authentication
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+// Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
 // Route::get('/home/customer', [App\Http\Controllers\HomeController::class, 'customer'])->middleware('user','fireauth');
 
-Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify')->middleware('fireauth');
+// Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify')->middleware('fireauth');
 
-Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
+// Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
 
-Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class)->middleware('user','fireauth');
+// Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class)->middleware('user','fireauth');
 
-Route::resource('/password/reset', App\Http\Controllers\Auth\ResetController::class);
+// Route::resource('/password/reset', App\Http\Controllers\Auth\ResetController::class);
 
-Route::resource('/img', App\Http\Controllers\ImageController::class);
+// Route::resource('/img', App\Http\Controllers\ImageController::class);
