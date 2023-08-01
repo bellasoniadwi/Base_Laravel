@@ -66,10 +66,8 @@
                   </td>
                   <td>
                     <div class="visible-print text-center">
-                      @foreach($result as $qrCode)
-                      <img src="data:image/png;base64, <?php $qrCode ?> " />
-                      @endforeach
-                      <p>{{ $student['nim'] }}</p>
+                      {!! QrCode::generate($student['id']); !!}
+                      <p>{{ $student['id'] }}</p>
                   </div>
                   </td>                
                   <td class="align-middle">

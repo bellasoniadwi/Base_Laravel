@@ -16,6 +16,7 @@ class FirebaseController extends Controller
 {
     public function index()
     {
+        
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
@@ -67,10 +68,11 @@ class FirebaseController extends Controller
                 'longitude' => $longitude,
                 'googleMapsUrl' => $googleMapsUrl,
                 'qrCodeUrl' => $qrCodeUrl, // Tambahkan URL QR code ke dalam data
+                'id'=>$documentId
             ];
 
         }
-
+        
         // Pass the data to the view
         return view('pages.students', compact('data'));
     }
