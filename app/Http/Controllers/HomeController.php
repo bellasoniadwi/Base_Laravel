@@ -4,11 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Google\Cloud\Firestore\FirestoreClient;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+use Kreait\Firebase\Contract\Auth;
+use Kreait\Firebase\Exception\FirebaseException;
+use Session;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function dashboard()
     {
+       
+
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
@@ -37,6 +50,15 @@ class HomeController extends Controller
 
         $totalStudents = count($data);
         return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
+
+         // FirebaseAuth.getInstance().getCurrentUser();
+         try {
+            $uid = Session::get('uid');
+            $user = app('firebase.auth')->getUser($uid);
+            return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
     public function tables()
