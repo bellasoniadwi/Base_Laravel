@@ -20,8 +20,9 @@
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NIM</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NIM</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Angkatan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Datang</th>
@@ -33,22 +34,17 @@
               <tbody>
                 @foreach($data as $student)
                 <tr>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="{{ $student['image'] }}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">{{ $student['name'] }}</h6>
-                        {{-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> --}}
-                      </div>
-                    </div>
+                  <td class="align-middle text-center">
+                    <img src="{{ $student['image'] }}" class="avatar avatar-lg me-3 border-radius-lg" alt="user1">
                   </td>
-                  <td>
+                  <td class="align-middle text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{ $student['name'] }}</p>
+                  </td>
+                  <td class="align-middle text-center">
                     <p class="text-xs font-weight-bold mb-0">{{ $student['nim'] }}</p>
                     {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                   </td>
-                  <td class="align-middle text-center text-sm">
+                  <td class="align-middle text-center">
                     {{-- <span class="badge badge-sm bg-gradient-success">Online</span> --}}
                     <span class="text-secondary text-xs font-weight-bold">{{ $student['angkatan'] }}</span>
                   </td>

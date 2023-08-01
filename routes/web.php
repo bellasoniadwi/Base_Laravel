@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\FirebaseController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -20,22 +21,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/student', [FirebaseController::class, 'index'])->name('students');
 });
-//coba firebase authentication
-// Route::get('/', function () {
-//     return view('auth.login');
-// });
-// Route::get('/tables', [HomeController::class, 'tables'])->name('tables');
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
-
-// Route::get('/home/customer', [App\Http\Controllers\HomeController::class, 'customer'])->middleware('user','fireauth');
-
-// Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify')->middleware('fireauth');
-
-// Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
-
-// Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class)->middleware('user','fireauth');
-
-// Route::resource('/password/reset', App\Http\Controllers\Auth\ResetController::class);
-
-// Route::resource('/img', App\Http\Controllers\ImageController::class);
