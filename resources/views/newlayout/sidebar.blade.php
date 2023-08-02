@@ -9,7 +9,17 @@
                 $user = auth()->user(); // Ubah sesuai dengan cara Anda mendapatkan informasi akun
 
                 if ($user) {
-                    echo $user->email; // Ubah sesuai dengan atribut nama akun pada objek $user
+                  $id = $user->localId;
+                  $firestore = app('firebase.firestore');
+                  $database = $firestore->database();
+                  $userDocRef = $database->collection('users')->document($id);
+                  $userSnapshot = $userDocRef->snapshot();
+                  if ($userSnapshot->exists()) {
+                      $name = $userSnapshot->data()['name'];
+                  } else {
+                      $name = "Name not found";
+                  }
+                  echo $name;
                 } else {
                     echo "Proyek Firebase";
                 }
@@ -36,6 +46,7 @@
             <span class="nav-link-text ms-1">User</span>
           </a>
         </li>
+        @can('admin')
         <li class="nav-item">
           <a class="nav-link text-white @yield('students')" href="{{route('students')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -44,12 +55,21 @@
             <span class="nav-link-text ms-1">Students</span>
           </a>
         </li>
+        @endcan
         <li class="nav-item">
           <a class="nav-link text-white @yield('rekap')" href="{{route('rekap')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Rekap</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white @yield('ceksaya')" href="{{route('ceksaya')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">receipt_long</i>
+            </div>
+            <span class="nav-link-text ms-1">Cek</span>
           </a>
         </li>
       </ul>
