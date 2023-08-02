@@ -10,7 +10,7 @@
         <div class="row justofy-content-center">
           <div class="col-xl-8 col-lg-8 col-md-8 mx-auto">
             <div class="card card-plain">
-                <h4 class="font-weight-bolder text-center">Form Daftar Akun Admin</h4>
+                <h4 class="font-weight-bolder text-center">Form Daftar Akun Admin Kedua & Student</h4>
                 {{-- <p class="mb-0">Enter your email and password to register</p> --}}
                 {{-- </div> --}}
                 <div class="card-body">
@@ -48,6 +48,14 @@
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                        </div>
+                        <div class="input-group input-group-outline mb-3">
+                            <label class="form-label"></label>
+                            <select class="form-control has-feedback-right" id="role" name="role" value="{{ old('role') }}">
+                                <option value=""> --Pilih Role--</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Peserta">Peserta</option>
+                            </select>
                         </div>
                         <div class="text-center">
                             <button type="submit"

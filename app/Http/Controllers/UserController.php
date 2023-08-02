@@ -64,6 +64,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
+            'role' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -73,7 +74,8 @@ class UserController extends Controller
             $userProperties = [
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
-                'name' => $request->input('name'), 
+                'name' => $request->input('name'),
+                'role' => $request->input('role'), 
             ];
   
             $createdUser = $this->auth->createUser($userProperties);
@@ -83,6 +85,7 @@ class UserController extends Controller
             $userRef->set([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'role' => $request->input('role'),
             ]);
 
             return redirect()->route('user.index');
