@@ -4,7 +4,7 @@
     Student
 @endsection
 
-@section('tables', 'active bg-gradient-primary')
+@section('students', 'active bg-gradient-primary')
 
 @section('content')
 <div class="row">
