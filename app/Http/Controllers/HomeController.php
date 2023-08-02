@@ -15,17 +15,15 @@ class HomeController extends Controller
 
     public function ceksaya()
     {
-        $user = auth()->user(); // Ubah sesuai dengan cara Anda mendapatkan informasi akun
+        $user = auth()->user();
 
         if ($user) {
-            $id = $user->localId; // Ubah sesuai dengan atribut nama akun pada objek $user
+            $id = $user->localId;
             $email = $user->email;
 
-            // Mengakses Firestore
             $firestore = app('firebase.firestore');
             $database = $firestore->database();
 
-            // Mendapatkan reference ke collection "users" dan document dengan id yang sesuai
             $userDocRef = $database->collection('users')->document($id);
             $userSnapshot = $userDocRef->snapshot();
 

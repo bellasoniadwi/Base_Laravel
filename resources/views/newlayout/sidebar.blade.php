@@ -38,6 +38,7 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
+        @can('superadmin')
         <li class="nav-item">
           <a class="nav-link text-white @yield('users')" href="{{route('user.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -46,7 +47,7 @@
             <span class="nav-link-text ms-1">User</span>
           </a>
         </li>
-        {{-- @can('admin') --}}
+        @endcan
         <li class="nav-item">
           <a class="nav-link text-white @yield('students')" href="{{route('students')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -55,7 +56,6 @@
             <span class="nav-link-text ms-1">Students</span>
           </a>
         </li>
-        {{-- @endcan --}}
         <li class="nav-item">
           <a class="nav-link text-white @yield('rekap')" href="{{route('rekap')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
