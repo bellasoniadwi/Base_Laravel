@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use Google\Cloud\Firestore\FirestoreClient;
-use Illuminate\Support\HtmlString;
-use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\PngWriter;
-use Illuminate\Support\Facades\Storage;
-use Endroid\QrCode\Writer\ValidationException;
-use Nette\Utils\Strings;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\StudentsExport;
 
 class FirebaseController extends Controller
 {
@@ -72,6 +66,14 @@ class FirebaseController extends Controller
         // Pass the data to the view
         return view('pages.students', compact('data'));
     }
+
+   
+
+    public function exportExcel()
+    {
+        return Excel::download(new StudentsExport(), 'students.xlsx');
+    }
+
 
     
 }
