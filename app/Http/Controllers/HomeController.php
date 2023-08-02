@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Google\Cloud\Firestore\FirestoreClient;
+use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Contract\Auth;
 use Kreait\Firebase\Exception\FirebaseException;
-use Session;
 
 class HomeController extends Controller
 {
@@ -20,8 +20,6 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-       
-
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
