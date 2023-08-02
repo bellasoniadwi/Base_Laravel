@@ -20,4 +20,5 @@ Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/student', [FirebaseController::class, 'index'])->name('students');
+    Route::get('/rekap', [HomeController::class, 'rekap'])->name('rekap');
 });
