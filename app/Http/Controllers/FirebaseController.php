@@ -45,7 +45,6 @@ class FirebaseController extends Controller
             $image = $documentData['image'] ?? null;
             $latitude = $documentData['latitude'] ?? null;
             $longitude = $documentData['longitude'] ?? null;
-            $qrCodeUrl = $this->generateQrCode($documentId);
             
 
             // generate url langsung dari lat, lang
@@ -54,8 +53,6 @@ class FirebaseController extends Controller
 
             // Generate QR code untuk setiap document ID dan tambahkan ke dalam array data
             
-            
-
 
             // Add the extracted data to the $data array
             $data[] = [
@@ -67,7 +64,6 @@ class FirebaseController extends Controller
                 'latitude' => $latitude,
                 'longitude' => $longitude,
                 'googleMapsUrl' => $googleMapsUrl,
-                'qrCodeUrl' => $qrCodeUrl, // Tambahkan URL QR code ke dalam data
                 'id'=>$documentId
             ];
 
@@ -77,28 +73,5 @@ class FirebaseController extends Controller
         return view('pages.students', compact('data'));
     }
 
-    public function generateQrCode(String $documentId)
-    {
-        // Menggunakan document ID sebagai data yang akan di-generate ke dalam QR code
-
-
-        $writer = new PngWriter();
-        $data=$documentId;
-        $qrCode = QrCode::create($data)->setEncoding(new Encoding('UTF-8'))->setForegroundColor(new Color(0, 0, 0))
-        ->setBackgroundColor(new Color(255, 255, 255));
-
-        $result = $writer->write($qrCode);
-
-        header('Content-Type: '.$result->getMimeType());
-        $result->getString();
-        
-
-        // $writer->validateResult($result, $documentId);
-
-        // Simpan gambar QR code ke dalam storage, misalnya folder "qrcodes" dalam storage/app
-        // $filename = $documentId . '.png';
-        // Storage::disk('local')->put('qrcodes/' . $filename, $qrCode);
-        return view('pages.students', compact('result'));
-
-    }
+    
 }
