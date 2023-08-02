@@ -25,8 +25,6 @@ class UserController extends Controller
         ]);
 
         $collectionReference = $firestore->collection('users');
-
-        $query = $collectionReference->orderBy('timestamps', 'desc');
         $documents = $collectionReference->documents();
 
         $data = [];
@@ -38,10 +36,12 @@ class UserController extends Controller
 
             $name = $documentData['name'] ?? null;
             $email = $documentData['email'] ?? null;
+            $role = $documentData['role'] ?? null;
 
             $data[] = [
                 'name' => $name,
                 'email' => $email,
+                'role' => $role,
             ];
         }
         
