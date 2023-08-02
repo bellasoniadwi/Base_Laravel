@@ -24,4 +24,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/create-form', [UserController::class, 'create_form'])->name('user.form');
     Route::post('/create-form', [UserController::class, 'create'])->name('user.create');
+    Route::get('/ceksaya', [HomeController::class, 'ceksaya'])->name('ceksaya');
 });

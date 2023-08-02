@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Google\Cloud\Firestore\FirestoreClient;
 use Illuminate\Support\Facades\Session;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-use Kreait\Firebase\Contract\Auth;
-use Kreait\Firebase\Exception\FirebaseException;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,6 +13,38 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    public function ceksaya()
+    {
+        $user = auth()->user(); // Ubah sesuai dengan cara Anda mendapatkan informasi akun
+
+        if ($user) {
+            $id = $user->localId; // Ubah sesuai dengan atribut nama akun pada objek $user
+            $email = $user->email;
+
+            // Mengakses Firestore
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            // Mendapatkan reference ke collection "users" dan document dengan id yang sesuai
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $name = $userSnapshot->data()['name'];
+                $role = $userSnapshot->data()['role'];
+            } else {
+                $name = "Name not found";
+                $role = "Role not found";
+            }
+        } else {
+            $id = "Id ga kebaca";
+            $email = "Email ga kebaca";
+            $name = "Name ga kebaca";
+            $role = "Role ga kebaca";
+        }
+
+        return view('pages.ceksaya', compact('id', 'email', 'name', 'role'));
+    }
 
     public function dashboard()
     {
