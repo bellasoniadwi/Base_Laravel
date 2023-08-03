@@ -53,63 +53,16 @@ class HomeController extends Controller
         ]);
         $collectionReference = $firestore->collection('students');
         $documents = $collectionReference->documents();
-
-        // Get the current month and year in the UTC timezone
-        $currentMonthYear = date('Y-m', strtotime('now'));
-        $totalStudentInAMonth = 0;
         
-        $data = [];
-        foreach ($documents as $doc) {
-            $documentData = $doc->data();
-            $timestamps = $documentData['timestamps'] ?? null;
-
-            // Check if the data is recorded in the current month
-            $recordedMonthYear = date('Y-m', strtotime($timestamps));
-            if ($recordedMonthYear === $currentMonthYear) {
-                $totalStudentInAMonth++;
-            }
-
-            $data[] = [
-                'timestamps' => $timestamps
-            ];
-        }
-
-        $totalStudents = count($data);
-        return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
-
-         // FirebaseAuth.getInstance().getCurrentUser();
-         try {
-            $uid = Session::get('uid');
-            $user = app('firebase.auth')->getUser($uid);
-            return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
-        } catch (\Exception $e) {
-            return $e;
-        }
-    }
-
-    public function tables()
-    {
-        return view('pages.tables');
-    }
-
-    public function signin()
-    {
-        return view('newauth.signin');
-    } 
-
-    public function rekap()
-    {
-        $firestore = new FirestoreClient([
-            'projectId' => 'project-sinarindo',
-        ]);
-        $collectionReference = $firestore->collection('students');
-        $documents = $collectionReference->documents();
+        // Inisialisasi variabel
+        $totalStudentInAMonth = 0;
 
         // Get the current month and year in the UTC timezone
         $currentMonthYear = date('Y-m', strtotime('now'));
 
         // Inisialisasi array untuk menyimpan total keterangan per field "name"
         $totals = [];
+        $data = [];
 
         foreach ($documents as $doc) {
             $documentData = $doc->data();
@@ -120,6 +73,9 @@ class HomeController extends Controller
             // Check if the data is recorded in the current month
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
             if ($recordedMonthYear === $currentMonthYear) {
+                //menghitung students yang tercatatat pada firestore collections students
+                $totalStudentInAMonth++;
+
                 // Jika field "name" belum ada dalam array $totals, tambahkan dengan nilai awal 0
                 if (!isset($totals[$name])) {
                     $totals[$name] = [
@@ -138,7 +94,15 @@ class HomeController extends Controller
                     $totals[$name]['sakit']++;
                 }
             }
+
+            //menghitung students yang tercatatat pada firestore collections students
+            $data[] = [
+                'timestamps' => $timestamps
+            ];
         }
+
+        //menghitung students yang tercatatat pada firestore collections students
+        $totalStudents = count($data);
 
         // Hitung total keseluruhan dari masing-masing keterangan
         $totalMasuk = 0;
@@ -152,8 +116,18 @@ class HomeController extends Controller
             $totalSakit += $nameTotal['sakit'];
         }
 
-        return view('pages.rekap', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit'));
+        return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth'));
+
+         // FirebaseAuth.getInstance().getCurrentUser();
+         try {
+            $uid = Session::get('uid');
+            $user = app('firebase.auth')->getUser($uid);
+            return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
+
 
     public function exportExcel()
     {
