@@ -51,14 +51,30 @@
         .m-b-md {
         margin-bottom: 30px;
         }
+
+        .fcc-btn {
+            background-color: #195e93;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+        }
         </style>
     </head>
     <body>
+        @include('newlayout.navbar')
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
                     Oops, Kamu tidak memiliki akses pada sistem ini
                 </div>
+                <a class="fcc-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                {{ __('Keluar') }}</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </body>
