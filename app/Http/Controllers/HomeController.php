@@ -140,4 +140,8 @@ class HomeController extends Controller
     {
         return Excel::download(new KehadiranExport(), 'rekap_kehadiran.xlsx');
     }
+
+    public function notauthorize() {
+        return view('newlayout.authorization');
+    }
 }

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'notpeserta']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/student', [FirebaseController::class, 'index'])->name('students');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
@@ -28,3 +28,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/export-rekap', [HomeController::class, 'exportExcel'])->name('export.rekap');
     Route::get('/export-kehadiran', [HomeController::class, 'exportExcelKehadiran'])->name('export.kehadiran');
 });
+
+
+Route::get('/not-authorize', [HomeController::class, 'notauthorize'])->name('notauthorize');
