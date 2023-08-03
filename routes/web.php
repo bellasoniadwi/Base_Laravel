@@ -27,4 +27,5 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/ceksaya', [HomeController::class, 'ceksaya'])->name('ceksaya');
     Route::get('/export-students', [FirebaseController::class, 'exportExcel'])->name('export.students');
     Route::get('/export-rekap', [HomeController::class, 'exportExcel'])->name('export.rekap');
+    Route::get('/export-kehadiran', [HomeController::class, 'exportExcelKehadiran'])->name('export.kehadiran');
 });
