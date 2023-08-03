@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KehadiranExport;
 use Google\Cloud\Firestore\FirestoreClient;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,8 @@ class HomeController extends Controller
             'projectId' => 'project-sinarindo',
         ]);
         $collectionReference = $firestore->collection('students');
-        $documents = $collectionReference->documents();
+        $query = $collectionReference->orderBy('name');
+        $documents = $query->documents();
         
         // Inisialisasi variabel
         $totalStudentInAMonth = 0;
@@ -131,6 +133,11 @@ class HomeController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new RekapExport(), 'rekap_kehadiran.xlsx');
+        return Excel::download(new RekapExport(), 'rekap_students.xlsx');
+    }
+
+    public function exportExcelkehadiran()
+    {
+        return Excel::download(new KehadiranExport(), 'rekap_kehadiran.xlsx');
     }
 }

@@ -12,6 +12,7 @@ use Kreait\Firebase\Exception\FirebaseException;
 
 class UserController extends Controller
 {
+
     public function index()
     {
         $user = auth()->user();
@@ -37,67 +38,44 @@ class UserController extends Controller
             $role_akun = "Role ga kebaca";
         }
 
-        
-        if ($role_akun == 'Superadmin'){
-            $firestore = new FirestoreClient([
-                'projectId' => 'project-sinarindo',
-            ]);
-    
-            $collectionReference = $firestore->collection('users');
-            $query = $collectionReference->where('role', '=', 'Admin');
-            $documents = $query->documents();
-    
-            $data = [];
-    
-            foreach ($documents as $doc) {
-    
-                $documentData = $doc->data();
-                $documentId = $doc->id();
-    
-                $name = $documentData['name'] ?? null;
-                $email = $documentData['email'] ?? null;
-                $role = $documentData['role'] ?? null;
-                $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
-    
-                $data[] = [
-                    'name' => $name,
-                    'email' => $email,
-                    'role' => $role,
-                    'pendaftar' => $pendaftar
-                ];
-            }
-        } elseif($role_akun == 'Admin'){
-            $firestore = new FirestoreClient([
-                'projectId' => 'project-sinarindo',
-            ]);
-    
-            $collectionReference = $firestore->collection('users');
+        $firestore = new FirestoreClient([
+            'projectId' => 'project-sinarindo',
+        ]);
+
+        $collectionReference = $firestore->collection('users');
+        $data = [];
+
+        if ($role_akun == 'Superadmin') {
+            $query = $collectionReference->where('role', '=', 'Admin')->orderBy('name');
+        } elseif ($role_akun == 'Admin') {
             $query = $collectionReference->where('didaftarkan_oleh', '=', $nama_akun);
-            $documents = $query->documents();
-    
-            $data = [];
-    
-            foreach ($documents as $doc) {
-    
-                $documentData = $doc->data();
-                $documentId = $doc->id();
-    
-                $name = $documentData['name'] ?? null;
-                $email = $documentData['email'] ?? null;
-                $role = $documentData['role'] ?? null;
-                $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
-    
-                $data[] = [
-                    'name' => $name,
-                    'email' => $email,
-                    'role' => $role,
-                    'pendaftar' => $pendaftar
-                ];
-            }
+        } else {
+            $query = $collectionReference->orderBy('name');
         }
- 
+
+        $documents = $query->documents();
+
+        foreach ($documents as $doc) {
+
+            $documentData = $doc->data();
+            $documentId = $doc->id();
+
+            $name = $documentData['name'] ?? null;
+            $email = $documentData['email'] ?? null;
+            $role = $documentData['role'] ?? null;
+            $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
+
+            $data[] = [
+                'name' => $name,
+                'email' => $email,
+                'role' => $role,
+                'pendaftar' => $pendaftar
+            ];
+        }
+
         return view('pages.users', compact('data'));
     }
+
 
     public function create_form() {
         return view('pages.user_form');
