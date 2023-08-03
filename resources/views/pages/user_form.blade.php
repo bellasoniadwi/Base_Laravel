@@ -10,7 +10,14 @@
         <div class="row justofy-content-center">
           <div class="col-xl-8 col-lg-8 col-md-8 mx-auto">
             <div class="card card-plain">
-                <h4 class="font-weight-bolder text-center">Form Daftar Akun Admin Kedua & Student</h4>
+                <h4 class="font-weight-bolder text-center">
+                    @can('superadmin')
+                        Form Daftar Akun Pelatih
+                    @endcan
+                    @can('admin')
+                        Form Daftar Akun Peserta
+                    @endcan
+                </h4>
                 {{-- <p class="mb-0">Enter your email and password to register</p> --}}
                 {{-- </div> --}}
                 <div class="card-body">
