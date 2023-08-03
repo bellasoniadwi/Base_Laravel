@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Support\Facades\Validator;
 use Google\Cloud\Firestore\FirestoreClient;
 use Kreait\Firebase\Contract\Firestore;
 use Illuminate\Http\Request;
@@ -11,40 +10,92 @@ use Illuminate\Support\Facades\Validator;
 use Kreait\Firebase\Contract\Auth;
 use Kreait\Firebase\Exception\FirebaseException;
 
-// use Illuminate\Http\Request;
-// use Kreait\Firebase\Exception\FirebaseException;
-// use Illuminate\Support\Facades\Session;
-// use Kreait\Firebase\Auth;
-
 class UserController extends Controller
 {
     public function index()
     {
-        $firestore = new FirestoreClient([
-            'projectId' => 'project-sinarindo',
-        ]);
+        $user = auth()->user();
 
-        $collectionReference = $firestore->collection('users');
-        $documents = $collectionReference->documents();
+        if ($user) {
+            $id = $user->localId;
 
-        $data = [];
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
 
-        foreach ($documents as $doc) {
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
 
-            $documentData = $doc->data();
-            $documentId = $doc->id();
-
-            $name = $documentData['name'] ?? null;
-            $email = $documentData['email'] ?? null;
-            $role = $documentData['role'] ?? null;
-
-            $data[] = [
-                'name' => $name,
-                'email' => $email,
-                'role' => $role,
-            ];
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+                $role_akun = $userSnapshot->data()['role'];
+            } else {
+                $nama_akun = "Name not found";
+                $role_akun = "Role not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+            $role_akun = "Role ga kebaca";
         }
+
         
+        if ($role_akun == 'Superadmin'){
+            $firestore = new FirestoreClient([
+                'projectId' => 'project-sinarindo',
+            ]);
+    
+            $collectionReference = $firestore->collection('users');
+            $query = $collectionReference->where('role', '=', 'Admin');
+            $documents = $query->documents();
+    
+            $data = [];
+    
+            foreach ($documents as $doc) {
+    
+                $documentData = $doc->data();
+                $documentId = $doc->id();
+    
+                $name = $documentData['name'] ?? null;
+                $email = $documentData['email'] ?? null;
+                $role = $documentData['role'] ?? null;
+                $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
+    
+                $data[] = [
+                    'name' => $name,
+                    'email' => $email,
+                    'role' => $role,
+                    'pendaftar' => $pendaftar
+                ];
+            }
+        } elseif($role_akun == 'Admin'){
+            $firestore = new FirestoreClient([
+                'projectId' => 'project-sinarindo',
+            ]);
+    
+            $collectionReference = $firestore->collection('users');
+            $query = $collectionReference->where('didaftarkan_oleh', '=', $nama_akun);
+            $documents = $query->documents();
+    
+            $data = [];
+    
+            foreach ($documents as $doc) {
+    
+                $documentData = $doc->data();
+                $documentId = $doc->id();
+    
+                $name = $documentData['name'] ?? null;
+                $email = $documentData['email'] ?? null;
+                $role = $documentData['role'] ?? null;
+                $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
+    
+                $data[] = [
+                    'name' => $name,
+                    'email' => $email,
+                    'role' => $role,
+                    'pendaftar' => $pendaftar
+                ];
+            }
+        }
+ 
         return view('pages.users', compact('data'));
     }
 
@@ -70,12 +121,32 @@ class UserController extends Controller
 
     public function create(Request $request) {
         try {
+            $user = auth()->user();
+
+            if ($user) {
+                $id = $user->localId;
+                $firestore = app('firebase.firestore');
+                $database = $firestore->database();
+    
+                $userDocRef = $database->collection('users')->document($id);
+                $userSnapshot = $userDocRef->snapshot();
+    
+                if ($userSnapshot->exists()) {
+                    $name = $userSnapshot->data()['name'];
+                } else {
+                    $name = "Tidak Dikenali";
+                }
+            } else {
+                $name = "Tidak Dikenali";
+            }
+
             $this->validator($request->all())->validate();
             $userProperties = [
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'name' => $request->input('name'),
-                'role' => $request->input('role'), 
+                'role' => $request->input('role'),
+                'didaftarkan_oleh' => $name,
             ];
   
             $createdUser = $this->auth->createUser($userProperties);
@@ -86,6 +157,7 @@ class UserController extends Controller
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'role' => $request->input('role'),
+                'didaftarkan_oleh' => $name,
             ]);
 
             return redirect()->route('user.index');

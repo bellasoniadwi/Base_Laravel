@@ -38,7 +38,6 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </a>
         </li>
-        @can('superadmin')
         <li class="nav-item">
           <a class="nav-link text-white @yield('users')" href="{{route('user.index')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -47,7 +46,6 @@
             <span class="nav-link-text ms-1">User</span>
           </a>
         </li>
-        @endcan
         <li class="nav-item">
           <a class="nav-link text-white @yield('students')" href="{{route('students')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -64,14 +62,14 @@
             <span class="nav-link-text ms-1">Rekap</span>
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a class="nav-link text-white @yield('ceksaya')" href="{{route('ceksaya')}}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt_long</i>
             </div>
             <span class="nav-link-text ms-1">Cek</span>
           </a>
-        </li>
+        </li> --}}
       </ul>
     </div>
   </aside>

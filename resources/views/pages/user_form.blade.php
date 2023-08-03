@@ -53,8 +53,12 @@
                             <label class="form-label"></label>
                             <select class="form-control has-feedback-right" id="role" name="role" value="{{ old('role') }}">
                                 <option value=""> --Pilih Role--</option>
+                                @can('superadmin')
                                 <option value="Admin">Admin</option>
+                                @endcan
+                                @can('admin')
                                 <option value="Peserta">Peserta</option>
+                                @endcan
                             </select>
                         </div>
                         <div class="text-center">
