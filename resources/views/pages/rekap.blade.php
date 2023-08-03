@@ -93,6 +93,11 @@
     </div>
     <br><br>
     <div class="row">
+      <!-- export rekap data from firestore -->
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <a href="{{ route('export.rekap') }}" class="btn btn-info">Export Excel</a>
+      </div>
+      <!-- end rekap students data from firestore -->
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">

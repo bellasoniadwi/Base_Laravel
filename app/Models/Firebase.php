@@ -8,6 +8,7 @@ use Google\Cloud\Firestore\FirestoreClient;
 
 class Firebase extends Model
 {
+    //Model ini digunakan untuk menginisialisasi collection firestore "students"
     use HasFactory;
 
     protected $table = 'students';

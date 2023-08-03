@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Google\Cloud\Firestore\FirestoreClient;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RekapExport;
 
 class HomeController extends Controller
 {
@@ -151,5 +153,10 @@ class HomeController extends Controller
         }
 
         return view('pages.rekap', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit'));
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new RekapExport(), 'rekap_kehadiran.xlsx');
     }
 }
