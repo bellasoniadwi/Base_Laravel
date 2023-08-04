@@ -158,7 +158,7 @@ class HomeController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new RekapExport(), 'rekap_students.xlsx');
+        return Excel::download(new RekapExport(), 'rekap_siswa.xlsx');
     }
 
     public function exportExcelkehadiran()

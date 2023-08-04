@@ -1,7 +1,7 @@
 @extends('newlayout.main')
 
 @section('title')
-    User
+    Akun Pengguna
 @endsection
 
 @section('users', 'active bg-gradient-primary')

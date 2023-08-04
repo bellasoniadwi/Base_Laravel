@@ -1,7 +1,7 @@
 @extends('newlayout.main')
 
 @section('title')
-    Student
+    Kehadiran Siswa
 @endsection
 
 @section('students', 'active bg-gradient-primary')

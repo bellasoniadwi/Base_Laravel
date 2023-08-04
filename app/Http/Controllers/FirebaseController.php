@@ -149,6 +149,6 @@ class FirebaseController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new StudentsExport(), 'students.xlsx');
+        return Excel::download(new StudentsExport(), 'bukti_kehadiran.xlsx');
     }
 }
