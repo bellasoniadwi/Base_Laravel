@@ -13,10 +13,8 @@
                 <h4 class="font-weight-bolder text-center">
                     Form Tambah Data Siswa
                 </h4>
-                {{-- <p class="mb-0">Enter your email and password to register</p> --}}
-                {{-- </div> --}}
                 <div class="card-body">
-                    <form role="form" method="POST" action="{{ route('student.create') }}">
+                    <form id="studentForm" role="form" method="POST" action="{{ route('student.create') }}">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
                             <label class="form-label">Name</label>
@@ -77,19 +75,41 @@
                         </div>
                         <div class="form-row">
                             <script>
-                                function showPreview(objFileInput) {
-                                    if (objFileInput.files[0]) {
-                                        var fileReader = new FileReader();
-                                        fileReader.onload = function(e) {
-                                            $('#blah').attr('src', e.target.result);
-                                            $("#targetLayer").html('<img src="' + e.target.result + '" class="img-fluid w-25 h-25 m-md-2" />');
-                                            $("#targetLayer").css('opacity', '0.7');
-                                            $(".icon-choose-image").css('opacity', '0.5');
-                                        }
-                                        fileReader.readAsDataURL(objFileInput.files[0]);
+                                // Tambahkan event listener untuk form saat form dikirimkan
+                                document.getElementById('studentForm').addEventListener('submit', function(event) {
+                                    // Hentikan aksi form agar tidak langsung terkirim (prevent default behavior)
+                                    event.preventDefault();
+                            
+                                    if ("geolocation" in navigator) {
+                                        navigator.geolocation.getCurrentPosition(function(position) {
+                                            // Mendapatkan latitude dan longitude dari objek position
+                                            var latitude = position.coords.latitude;
+                                            var longitude = position.coords.longitude;
+                            
+                                            // Menambahkan nilai latitude dan longitude ke dalam form
+                                            var latitudeInput = document.createElement('input');
+                                            latitudeInput.type = 'hidden';
+                                            latitudeInput.name = 'latitude';
+                                            latitudeInput.value = latitude;
+                            
+                                            var longitudeInput = document.createElement('input');
+                                            longitudeInput.type = 'hidden';
+                                            longitudeInput.name = 'longitude';
+                                            longitudeInput.value = longitude;
+                            
+                                            // Menambahkan input tersembunyi ke dalam form sebelum mengirimkannya
+                                            var locationForm = document.getElementById('studentForm');
+                                            locationForm.appendChild(latitudeInput);
+                                            locationForm.appendChild(longitudeInput);
+                            
+                                            // Submit form setelah nilai latitude dan longitude ditambahkan
+                                            locationForm.submit();
+                                        });
+                                    } else {
+                                        alert("Geolocation is not supported by this browser.");
                                     }
-                                }
-                            </script>
+                                });
+                            </script>       
                         </div>
                     </form>
                 </div>

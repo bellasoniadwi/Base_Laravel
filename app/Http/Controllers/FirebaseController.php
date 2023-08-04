@@ -127,6 +127,9 @@ class FirebaseController extends Controller
             $firestore = app(Firestore::class);
             $userRef = $firestore->database()->collection('students');
             $tanggal = new Timestamp(new DateTime());
+            // Mengambil data latitude dan longitude dari permintaan (request)
+            $latitude = $request->input('latitude');
+            $longitude = $request->input('longitude');
 
             $userRef->add([
                 'name' => $request->input('name'),
@@ -135,6 +138,8 @@ class FirebaseController extends Controller
                 'keterangan' => $request->input('keterangan'),
                 'pelatih' => $name,
                 'timestamps' => $tanggal,
+                'latitude' => $latitude,
+                'longitude' => $longitude
             ]);
     
             return redirect()->route('students');
