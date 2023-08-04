@@ -21,12 +21,14 @@ Route::group(['middleware' => ['auth', 'notpeserta']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('/student', [FirebaseController::class, 'index'])->name('students');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/create-form', [UserController::class, 'create_form'])->name('user.form');
-    Route::post('/create-form', [UserController::class, 'create'])->name('user.create');
-    // Route::get('/ceksaya', [HomeController::class, 'ceksaya'])->name('ceksaya');
+    Route::get('/create-user', [UserController::class, 'create_form'])->name('user.form');
+    Route::post('/create-user', [UserController::class, 'create'])->name('user.create');
     Route::get('/export-students', [FirebaseController::class, 'exportExcel'])->name('export.students');
     Route::get('/export-rekap', [HomeController::class, 'exportExcel'])->name('export.rekap');
     Route::get('/export-kehadiran', [HomeController::class, 'exportExcelKehadiran'])->name('export.kehadiran');
+
+    Route::get('/create-student', [FirebaseController::class, 'create_form'])->name('student.form');
+    Route::post('/create-student', [FirebaseController::class, 'create'])->name('student.create');
 });
 
 

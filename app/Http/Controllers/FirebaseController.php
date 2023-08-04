@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use Google\Cloud\Firestore\FirestoreClient;
 use Maatwebsite\Excel\Facades\Excel;
+use Kreait\Firebase\Contract\Firestore;
 use App\Exports\StudentsExport;
+use DateTime;
+use Google\Cloud\Core\Timestamp;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
+use Kreait\Firebase\Exception\FirebaseException;
 
 class FirebaseController extends Controller
 {
@@ -80,7 +87,63 @@ class FirebaseController extends Controller
         return view('pages.students', compact('data'));
     }
 
-   
+    public function create_form() {
+        return view('pages.student_form');
+    }
+
+    public function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'string', 'max:255'],
+            'angkatan' => ['required', 'string', 'max:255'],
+            'keterangan' => ['required', 'string', 'max:255'],
+        ]);
+    }
+
+    public function create(Request $request) {
+        try {
+            $user = auth()->user();
+    
+            if ($user) {
+                $id = $user->localId;
+                $firestore = app('firebase.firestore');
+                $database = $firestore->database();
+    
+                $userDocRef = $database->collection('users')->document($id);
+                $userSnapshot = $userDocRef->snapshot();
+    
+                if ($userSnapshot->exists()) {
+                    $name = $userSnapshot->data()['name'];
+                } else {
+                    $name = "Tidak Dikenali";
+                }
+            } else {
+                $name = "Tidak Dikenali";
+            }
+    
+            $this->validator($request->all())->validate();
+    
+            $firestore = app(Firestore::class);
+            $userRef = $firestore->database()->collection('students');
+            $tanggal = new Timestamp(new DateTime());
+
+            $userRef->add([
+                'name' => $request->input('name'),
+                'nim' => $request->input('nim'),
+                'angkatan' => $request->input('angkatan'),
+                'keterangan' => $request->input('keterangan'),
+                'pelatih' => $name,
+                'timestamps' => $tanggal,
+            ]);
+    
+            return redirect()->route('students');
+        } catch (FirebaseException $e) {
+            Session::flash('error', $e->getMessage());
+            return back()->withInput();
+        }
+    }
+    
 
     public function exportExcel()
     {

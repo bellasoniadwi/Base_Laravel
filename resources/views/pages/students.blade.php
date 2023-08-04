@@ -22,6 +22,9 @@
         </div>
         <div class="card-body px-0 pb-2">
           <div class="table-responsive p-0">
+            <div class="d-flex justify-content-end mb-3">
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{{route('student.form')}}">Add Student</a>
+            </div>
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
