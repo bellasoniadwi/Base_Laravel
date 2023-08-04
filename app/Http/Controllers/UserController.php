@@ -48,7 +48,7 @@ class UserController extends Controller
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->where('role', '=', 'Admin')->orderBy('name');
         } elseif ($role_akun == 'Admin') {
-            $query = $collectionReference->where('didaftarkan_oleh', '=', $nama_akun);
+            $query = $collectionReference->where('didaftarkan_oleh', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
         }

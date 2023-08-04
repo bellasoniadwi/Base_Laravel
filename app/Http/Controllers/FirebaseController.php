@@ -43,7 +43,7 @@ class FirebaseController extends Controller
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
         } elseif ($role_akun == 'Admin') {
-            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+            $query = $collectionReference->where('pelatih', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
         }
