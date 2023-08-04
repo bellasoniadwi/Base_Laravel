@@ -49,12 +49,48 @@ class HomeController extends Controller
 
     public function dashboard()
     {
+        $user = auth()->user();
+
+        if ($user) {
+            $id = $user->localId;
+
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+                $role_akun = $userSnapshot->data()['role'];
+            } else {
+                $nama_akun = "Name not found";
+                $role_akun = "Role not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+            $role_akun = "Role ga kebaca";
+        }
+
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
+
         $collectionReference = $firestore->collection('students');
-        $query = $collectionReference->orderBy('name');
+        // Inisialisasi array untuk menyimpan total keterangan per field "name"
+        $totals = [];
+        $data = [];
+
+        if ($role_akun == 'Superadmin') {
+            $query = $collectionReference->orderBy('name');
+        } elseif ($role_akun == 'Admin') {
+            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+        } else {
+            $query = $collectionReference->orderBy('name');
+        }
+
         $documents = $query->documents();
+
         
         // Inisialisasi variabel
         $totalStudentInAMonth = 0;
@@ -62,9 +98,7 @@ class HomeController extends Controller
         // Get the current month and year in the UTC timezone
         $currentMonthYear = date('Y-m', strtotime('now'));
 
-        // Inisialisasi array untuk menyimpan total keterangan per field "name"
-        $totals = [];
-        $data = [];
+        
 
         foreach ($documents as $doc) {
             $documentData = $doc->data();
@@ -117,17 +151,7 @@ class HomeController extends Controller
             $totalIzin += $nameTotal['izin'];
             $totalSakit += $nameTotal['sakit'];
         }
-
         return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth'));
-
-         // FirebaseAuth.getInstance().getCurrentUser();
-         try {
-            $uid = Session::get('uid');
-            $user = app('firebase.auth')->getUser($uid);
-            return view('pages.dashboard', compact('totalStudents', 'totalStudentInAMonth'));
-        } catch (\Exception $e) {
-            return $e;
-        }
     }
 
 
