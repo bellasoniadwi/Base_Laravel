@@ -10,28 +10,59 @@ class KehadiranExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
+        $user = auth()->user();
+
+        if ($user) {
+            $id = $user->localId;
+
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+                $role_akun = $userSnapshot->data()['role'];
+            } else {
+                $nama_akun = "Name not found";
+                $role_akun = "Role not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+            $role_akun = "Role ga kebaca";
+        }
+
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
+
         $collectionReference = $firestore->collection('students');
-        $documents = $collectionReference->documents();
+
+        if ($role_akun == 'Superadmin') {
+            $query = $collectionReference->orderBy('name');
+        } elseif ($role_akun == 'Admin') {
+            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+        } else {
+            $query = $collectionReference->orderBy('name');
+        }
+
+        $documents = $query->documents();
         $currentMonthYear = date('Y-m', strtotime('now'));
 
         $totals = [];
-        $data = [];
 
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
-            $name = $documentData['name'] ?? null;
 
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
             if ($recordedMonthYear === $currentMonthYear) {
                 if (!isset($totals[$recordedMonthYear])) {
                     $totals[$recordedMonthYear] = [
-                        'year' => date('Y', strtotime($timestamps)),
                         'month' => date('m', strtotime($timestamps)),
+                        'year' => date('Y', strtotime($timestamps)),
                         'total_students' => 0,
                         'total_masuk' => 0,
                         'total_izin' => 0,
@@ -56,6 +87,6 @@ class KehadiranExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Tahun', 'Bulan',  'Jumlah Siswa', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit'];
+        return ['Bulan', 'Tahun', 'Jumlah Siswa', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit'];
     }
 }

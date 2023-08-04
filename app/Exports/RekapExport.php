@@ -10,12 +10,45 @@ class RekapExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
+        $user = auth()->user();
+
+        if ($user) {
+            $id = $user->localId;
+
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+                $role_akun = $userSnapshot->data()['role'];
+            } else {
+                $nama_akun = "Name not found";
+                $role_akun = "Role not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+            $role_akun = "Role ga kebaca";
+        }
+
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
 
         $collectionReference = $firestore->collection('students');
-        $documents = $collectionReference->documents();
+
+        if ($role_akun == 'Superadmin') {
+            $query = $collectionReference->orderBy('name');
+        } elseif ($role_akun == 'Admin') {
+            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+        } else {
+            $query = $collectionReference->orderBy('name');
+        }
+
+        $documents = $query->documents();
+
         $currentMonthYear = date('Y-m', strtotime('now'));
 
         $totals = [];
@@ -53,6 +86,8 @@ class RekapExport implements FromCollection, WithHeadings
         foreach ($totals as $name => $nameTotal) {
             $rekapData[] = [
                 'name' => $name,
+                'month' => date('m', strtotime($timestamps)),
+                'year' => date('Y', strtotime($timestamps)),
                 'total_masuk' => $nameTotal['masuk'],
                 'total_izin' => $nameTotal['izin'],
                 'total_sakit' => $nameTotal['sakit'],
@@ -64,6 +99,6 @@ class RekapExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Name', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit'];
+        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit'];
     }
 }
