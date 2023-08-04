@@ -12,13 +12,13 @@
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
           <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-            <h6 class="text-white text-capitalize ps-3">User's Account</h6>
+            <h6 class="text-white text-capitalize ps-3">Akun pengguna</h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">
           <div class="table-responsive p-0">
             <div class="d-flex justify-content-end mb-3">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{{route('user.form')}}">Add Account</a>
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{{route('user.form')}}">Tambah Akun</a>
             </div>
             <table class="table align-items-center mb-0">
               <thead>

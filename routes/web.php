@@ -17,18 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
-Route::group(['middleware' => ['auth', 'notpeserta']], function () {
+Route::group(['middleware' => ['auth', 'notsiswa']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('/student', [FirebaseController::class, 'index'])->name('students');
+    Route::get('/siswa', [FirebaseController::class, 'index'])->name('siswa');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/create-user', [UserController::class, 'create_form'])->name('user.form');
     Route::post('/create-user', [UserController::class, 'create'])->name('user.create');
-    Route::get('/export-students', [FirebaseController::class, 'exportExcel'])->name('export.students');
+    Route::get('/export-siswa', [FirebaseController::class, 'exportExcel'])->name('export.siswa');
     Route::get('/export-rekap', [HomeController::class, 'exportExcel'])->name('export.rekap');
     Route::get('/export-kehadiran', [HomeController::class, 'exportExcelKehadiran'])->name('export.kehadiran');
 
-    Route::get('/create-student', [FirebaseController::class, 'create_form'])->name('student.form');
-    Route::post('/create-student', [FirebaseController::class, 'create'])->name('student.create');
+    Route::get('/create-siswa', [FirebaseController::class, 'create_form'])->name('siswa.form');
+    Route::post('/create-siswa', [FirebaseController::class, 'create'])->name('siswa.create');
 });
 
 

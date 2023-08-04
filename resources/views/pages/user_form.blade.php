@@ -14,8 +14,8 @@
                     @can('superadmin')
                         Form Daftar Akun Pelatih
                     @endcan
-                    @can('admin')
-                        Form Daftar Akun Peserta
+                    @can('pelatih')
+                        Form Daftar Akun Siswa
                     @endcan
                 </h4>
                 {{-- <p class="mb-0">Enter your email and password to register</p> --}}
@@ -61,10 +61,10 @@
                             <select class="form-control has-feedback-right" id="role" name="role" value="{{ old('role') }}">
                                 <option value=""> --Pilih Role--</option>
                                 @can('superadmin')
-                                <option value="Admin">Admin</option>
+                                <option value="Pelatih">Pelatih</option>
                                 @endcan
-                                @can('admin')
-                                <option value="Peserta">Peserta</option>
+                                @can('pelatih')
+                                <option value="Siswa">Siswa</option>
                                 @endcan
                             </select>
                         </div>

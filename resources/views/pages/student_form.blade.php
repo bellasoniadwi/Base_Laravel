@@ -14,7 +14,7 @@
                     Form Tambah Data Siswa
                 </h4>
                 <div class="card-body">
-                    <form id="studentForm" role="form" method="POST" action="{{ route('student.create') }}">
+                    <form id="studentForm" role="form" method="POST" action="{{ route('siswa.create') }}">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
                             <label class="form-label">Name</label>

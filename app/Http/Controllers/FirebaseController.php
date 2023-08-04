@@ -49,7 +49,7 @@ class FirebaseController extends Controller
 
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
-        } elseif ($role_akun == 'Admin') {
+        } elseif ($role_akun == 'Pelatih') {
             $query = $collectionReference->where('pelatih', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
@@ -127,9 +127,6 @@ class FirebaseController extends Controller
             $firestore = app(Firestore::class);
             $userRef = $firestore->database()->collection('students');
             $tanggal = new Timestamp(new DateTime());
-            // Mengambil data latitude dan longitude dari permintaan (request)
-            $latitude = $request->input('latitude');
-            $longitude = $request->input('longitude');
 
             $userRef->add([
                 'name' => $request->input('name'),
@@ -138,11 +135,11 @@ class FirebaseController extends Controller
                 'keterangan' => $request->input('keterangan'),
                 'pelatih' => $name,
                 'timestamps' => $tanggal,
-                'latitude' => $latitude,
-                'longitude' => $longitude
+                'latitude' => $request->input('latitude'),
+                'longitude' => $request->input('longitude'),
             ]);
     
-            return redirect()->route('students');
+            return redirect()->route('siswa');
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());
             return back()->withInput();

@@ -10,20 +10,20 @@
 <div class="row">
   <!-- export students data from firestore -->
   <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-    <a href="{{ route('export.students') }}" class="btn btn-info">Export Excel</a>
+    <a href="{{ route('export.siswa') }}" class="btn btn-info">Export Excel</a>
   </div>
   <!-- end export students data from firestore -->
     <div class="col-12">
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
           <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-            <h6 class="text-white text-capitalize ps-3">Student's table</h6>
+            <h6 class="text-white text-capitalize ps-3">Tabel Siswa</h6>
           </div>
         </div>
         <div class="card-body px-0 pb-2">
           <div class="table-responsive p-0">
             <div class="d-flex justify-content-end mb-3">
-              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{{route('student.form')}}">Add Student</a>
+              <a class="btn btn-outline-primary btn-sm mb-0 me-3" href="{{route('siswa.form')}}">Tambah Siswa</a>
             </div>
             <table class="table align-items-center mb-0">
               <thead>

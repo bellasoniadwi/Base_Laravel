@@ -83,7 +83,7 @@ class HomeController extends Controller
 
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
-        } elseif ($role_akun == 'Admin') {
+        } elseif ($role_akun == 'Pelatih') {
             $query = $collectionReference->where('pelatih', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
