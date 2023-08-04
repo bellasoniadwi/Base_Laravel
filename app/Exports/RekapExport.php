@@ -49,8 +49,6 @@ class RekapExport implements FromCollection, WithHeadings
 
         $documents = $query->documents();
 
-        $currentMonthYear = date('Y-m', strtotime('now'));
-
         $totals = [];
 
         foreach ($documents as $doc) {
@@ -61,7 +59,7 @@ class RekapExport implements FromCollection, WithHeadings
 
             // Check if the data is recorded in the current month
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
-            if ($recordedMonthYear === $currentMonthYear) {
+            if (!isset($totals[$recordedMonthYear])) {
                 // Initialize the totals for each name
                 if (!isset($totals[$name])) {
                     $totals[$name] = [
@@ -86,7 +84,7 @@ class RekapExport implements FromCollection, WithHeadings
         foreach ($totals as $name => $nameTotal) {
             $rekapData[] = [
                 'name' => $name,
-                'month' => date('m', strtotime($timestamps)),
+                'month' => date('M', strtotime($timestamps)),
                 'year' => date('Y', strtotime($timestamps)),
                 'total_masuk' => $nameTotal['masuk'],
                 'total_izin' => $nameTotal['izin'],

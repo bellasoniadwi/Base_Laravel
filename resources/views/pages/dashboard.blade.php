@@ -38,7 +38,7 @@
                 </div>
                 <div class="text-end pt-1">
                     <p class="text-sm mb-0 text-capitalize">Jumlah Siswa</p>
-                    <h4 class="mb-0">{{ $totalStudents }}</h4>
+                    <h4 class="mb-0">{{ $totalStudentInAMonth }}</h4>
                 </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -128,7 +128,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Rekap Kehadiran</h6>
+                <h6 class="text-white text-capitalize ps-3">Rekap Kehadiran {{ $currentMonthYearNow}}</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">

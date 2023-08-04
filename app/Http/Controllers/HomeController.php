@@ -97,6 +97,7 @@ class HomeController extends Controller
 
         // Get the current month and year in the UTC timezone
         $currentMonthYear = date('Y-m', strtotime('now'));
+        $currentMonthYearNow = date('M Y', strtotime('now'));
 
         
 
@@ -151,7 +152,7 @@ class HomeController extends Controller
             $totalIzin += $nameTotal['izin'];
             $totalSakit += $nameTotal['sakit'];
         }
-        return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth'));
+        return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth', 'currentMonthYearNow'));
     }
 
 

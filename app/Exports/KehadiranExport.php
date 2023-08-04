@@ -48,7 +48,6 @@ class KehadiranExport implements FromCollection, WithHeadings
         }
 
         $documents = $query->documents();
-        $currentMonthYear = date('Y-m', strtotime('now'));
 
         $totals = [];
 
@@ -58,10 +57,9 @@ class KehadiranExport implements FromCollection, WithHeadings
             $timestamps = $documentData['timestamps'] ?? null;
 
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
-            if ($recordedMonthYear === $currentMonthYear) {
                 if (!isset($totals[$recordedMonthYear])) {
                     $totals[$recordedMonthYear] = [
-                        'month' => date('m', strtotime($timestamps)),
+                        'month' => date('M', strtotime($timestamps)),
                         'year' => date('Y', strtotime($timestamps)),
                         'total_students' => 0,
                         'total_masuk' => 0,
@@ -78,7 +76,6 @@ class KehadiranExport implements FromCollection, WithHeadings
                 } elseif ($keterangan === "Sakit") {
                     $totals[$recordedMonthYear]['total_sakit']++;
                 }
-            }
         }
 
         // Convert the $totals array to a collection and return
