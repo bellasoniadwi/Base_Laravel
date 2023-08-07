@@ -130,7 +130,8 @@ class FirebaseController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $storagePath = 'images/' . $imageFile->getClientOriginalName();
+                $extension = $imageFile->getClientOriginalExtension();
+                $storagePath = 'images/' . uniqid() . '_' . now()->format('Y-m-d_H-i-s') . '.' . $extension;
 
                 $storage->getBucket()->upload(
                     file_get_contents($imageFile->getRealPath()),
