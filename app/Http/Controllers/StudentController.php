@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Laravel\Firebase\Facades\Firebase;
 
-class FirebaseController extends Controller
+class StudentController extends Controller
 {
     public function index()
     {
