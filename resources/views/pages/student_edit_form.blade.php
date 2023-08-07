@@ -63,7 +63,7 @@
                                 <label class="form-label"></label>
                                 <input type="file" id="image" name="image"
                                     class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}"
-                                    autocomplete="image"/>
+                                    autocomplete="image" onchange="previewImage(event)">
                                     
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">
@@ -73,7 +73,7 @@
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-5">
-                                <img width="80px" height="100px" src="{{ $siswa['image'] }}" alt="user1">
+                                <img id="preview" width="80px" height="100px" src="{{ $siswa['image'] }}" alt="user1">
                             </div>
                         </div>
                         <div class="text-center">
@@ -82,6 +82,20 @@
                         </div>
                         <div class="form-row">
                             <script>
+                                // Kode script JS
+                                function previewImage(event) {
+                                    var input = event.target;
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            var previewImage = document.getElementById('preview');
+                                            previewImage.src = e.target.result;
+                                            previewImage.style.display = 'block'; // Tampilkan gambar setelah di-upload
+                                        };
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
+                                
                                 // Tambahkan event listener untuk form saat form dikirimkan
                                 document.getElementById('studentForm').addEventListener('submit', function(event) {
                                     // Hentikan aksi form agar tidak langsung terkirim (prevent default behavior)

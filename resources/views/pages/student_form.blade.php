@@ -58,23 +58,43 @@
                                 <option value="Sakit">Sakit</option>
                             </select>
                         </div>
+                        <!-- Kode HTML -->
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label"></label>
-                            <input type="file" id="image" name="image"
-                                class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}"
-                                required autocomplete="image">
-                            @error('image')
+                            <div class="col-md-8">
+                                <label class="form-label"></label>
+                                <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}" autocomplete="image" onchange="previewImage(event)">
+                                @error('image')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                                @enderror
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <img id="preview" src="#" alt="Preview Gambar" style="max-width: 80px; max-height: 100px; display: none;">
+                            </div>
                         </div>
+
                         <div class="text-center">
                             <button type="submit"
                                 class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Simpan</button>
                         </div>
                         <div class="form-row">
                             <script>
+                                // Kode script JS
+                                function previewImage(event) {
+                                    var input = event.target;
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (e) {
+                                            var previewImage = document.getElementById('preview');
+                                            previewImage.src = e.target.result;
+                                            previewImage.style.display = 'block'; // Tampilkan gambar setelah di-upload
+                                        };
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
+                                
                                 // Tambahkan event listener untuk form saat form dikirimkan
                                 document.getElementById('studentForm').addEventListener('submit', function(event) {
                                     // Hentikan aksi form agar tidak langsung terkirim (prevent default behavior)
