@@ -19,16 +19,27 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::group(['middleware' => ['auth', 'notsiswa']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
+
+    // index
     Route::get('/siswa', [StudentController::class, 'index'])->name('siswa');
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
+
+    // create
     Route::get('/create-user', [UserController::class, 'create_form'])->name('user.form');
     Route::post('/create-user', [UserController::class, 'create'])->name('user.create');
+    Route::get('/create-siswa', [StudentController::class, 'create_form'])->name('siswa.form');
+    Route::post('/create-siswa', [StudentController::class, 'create'])->name('siswa.create');
+
+    // edit
+    Route::get('/edit-siswa/{id}', [StudentController::class, 'edit_form'])->name('siswa.form.edit');
+    Route::post('/edit-siswa/{id}', [StudentController::class, 'update'])->name('siswa.update');
+
+    // export
     Route::get('/export-siswa', [StudentController::class, 'exportExcel'])->name('export.siswa');
     Route::get('/export-rekap', [HomeController::class, 'exportExcel'])->name('export.rekap');
     Route::get('/export-kehadiran', [HomeController::class, 'exportExcelKehadiran'])->name('export.kehadiran');
 
-    Route::get('/create-siswa', [StudentController::class, 'create_form'])->name('siswa.form');
-    Route::post('/create-siswa', [StudentController::class, 'create'])->name('siswa.create');
+    // delete
     Route::delete('/delete-siswa/{id}', [StudentController::class, 'delete'])->name('siswa.delete');
 });
 

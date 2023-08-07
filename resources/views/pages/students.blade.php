@@ -76,16 +76,21 @@
                     </div>
                   </td>                
                   <td class="align-middle text-center">
-                    <span class="badge badge-sm bg-gradient-success"><a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs fas fa-map-marker-alt" data-toggle="tooltip" data-original-title="Edit user">
-                      
-                    </a></span>
+                    <span class="badge badge-sm bg-gradient-success">
+                      <a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs fas fa-map-marker-alt" data-toggle="tooltip" data-original-title="Edit user"></a>
+                    </span>
                   </td>
-                  <td class="align-middle text-center">
-                    <a class="fa fa-edit" href=""></a>
+                  <td class="align-middle">
                     <form action="{{ route('siswa.delete', ['id' => $student['id']]) }}" method="post">
                       @csrf
                       @method('delete')
-                      <button type="submit" class="btn btn-icons" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="material-icons ms-auto text-dark cursor-pointer" title="Hapus Siswa">delete</i></button>
+                      <a href="{{ route('siswa.form.edit', ['id' => $student['id']]) }}">
+                        <i class="material-icons" title="Edit Card">edit</i>
+                      </a>
+
+                      <button type="submit" class="btn btn-icons" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                        <i class="material-icons ms-auto text-dark cursor-pointer" title="Hapus Siswa">delete</i>
+                      </button>
                     </form>
                   </td>
                 </tr>

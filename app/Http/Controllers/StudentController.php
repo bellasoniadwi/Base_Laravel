@@ -92,6 +92,16 @@ class StudentController extends Controller
         return view('pages.student_form');
     }
 
+    public function edit_form($documentId) {
+        try {
+            $siswa = app('firebase.firestore')->database()->collection('students')->document($documentId)->snapshot();
+
+            return view('pages.student_edit_form', compact('siswa', 'documentId'));
+        } catch (FirebaseException $e) {
+            return response()->json(['message' => 'Gagal mengambil data student: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function validator(array $data)
     {
         return Validator::make($data, [
@@ -144,10 +154,10 @@ class StudentController extends Controller
             }
     
             $firestore = app(Firestore::class);
-            $userRef = $firestore->database()->collection('students');
+            $studentRef = $firestore->database()->collection('students');
             $tanggal = new Timestamp(new DateTime());
 
-            $userRef->add([
+            $studentRef->add([
                 'name' => $request->input('name'),
                 'nim' => $request->input('nim'),
                 'angkatan' => $request->input('angkatan'),
@@ -165,7 +175,53 @@ class StudentController extends Controller
             return back()->withInput();
         }
     }
-    Public function delete($documentId)
+
+    public function update(Request $request, $documentId)
+    {
+        try{
+            $this->validator($request->all())->validate();
+        
+            // Handle image upload and store its path in Firebase Storage
+            if ($request->hasFile('image')) {
+                $imageFile = $request->file('image');
+
+                $storage = Firebase::storage();
+                $uniqueId = microtime(true) * 1000;
+                $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
+
+                $storage->getBucket()->upload(
+                    file_get_contents($imageFile->getRealPath()),
+                    ['name' => $storagePath]
+                );
+
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
+            } else {
+                $imagePath = null;
+            }
+        
+                $firestore = app(Firestore::class);
+                $studentRef = $firestore->database()->collection('students')->document($documentId);
+                $tanggal = new Timestamp(new DateTime());
+
+                $studentRef->update([
+                    ['path' => 'name', 'value' => $request->input('name')],
+                    ['path' => 'nim', 'value' => $request->input('nim')],
+                    ['path' => 'angkatan', 'value' => $request->input('angkatan')],
+                    ['path' => 'keterangan', 'value' => $request->input('keterangan')],
+                    ['path' => 'timestamps', 'value' => $tanggal],
+                    ['path' => 'latitude', 'value' => $request->input('latitude')],
+                    ['path' => 'longitude', 'value' => $request->input('longitude')],
+                    ['path' => 'image', 'value' => $imagePath],
+                ]);
+
+                return redirect()->route('siswa');
+        } catch (FirebaseException $e) {
+            Session::flash('error', $e->getMessage());
+            return back()->withInput();
+        }
+    }
+    
+    public function delete($documentId)
     {
         try {
             app('firebase.firestore')->database()->collection('students')->document($documentId)->delete();
