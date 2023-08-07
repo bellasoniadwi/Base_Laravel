@@ -130,15 +130,15 @@ class FirebaseController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $extension = $imageFile->getClientOriginalExtension();
-                $storagePath = 'images/' . uniqid() . '_' . now()->format('Y-m-d_H-i-s') . '.' . $extension;
+                $uniqueId = microtime(true) * 1000;
+                $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
                 $storage->getBucket()->upload(
                     file_get_contents($imageFile->getRealPath()),
                     ['name' => $storagePath]
                 );
 
-                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour()); // Generate a signed URL for public access
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
             } else {
                 $imagePath = null; // If no image is uploaded, set the image path to null
             }
