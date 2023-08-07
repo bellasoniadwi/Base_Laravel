@@ -36,6 +36,7 @@
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Datang</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kode QR</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lokasi</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                   {{-- <th class="text-secondary opacity-7"></th> --}}
                 </tr>
               </thead>
@@ -78,6 +79,10 @@
                     <span class="badge badge-sm bg-gradient-success"><a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                       Lihat Lokasi
                     </a></span>
+                  </td>
+                  <td>
+                    <a class="fa fa-edit" href=""></a>
+                    <a class="fa fa-trash" href="{{ route('siswa.delete', $student['id']) }}"></a>
                   </td>
                 </tr>
                 @endforeach
