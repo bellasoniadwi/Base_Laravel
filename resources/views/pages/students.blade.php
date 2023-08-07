@@ -36,7 +36,7 @@
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Datang</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kode QR</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Lokasi</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                   {{-- <th class="text-secondary opacity-7"></th> --}}
                 </tr>
               </thead>
@@ -75,17 +75,17 @@
                       <p style="font-size: 10px;">{{ $student['id'] }} </p> 
                     </div>
                   </td>                
-                  <td class="align-middle">
-                    <span class="badge badge-sm bg-gradient-success"><a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                      Lihat Lokasi
+                  <td class="align-middle text-center">
+                    <span class="badge badge-sm bg-gradient-success"><a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs fas fa-map-marker-alt" data-toggle="tooltip" data-original-title="Edit user">
+                      
                     </a></span>
                   </td>
-                  <td>
+                  <td class="align-middle text-center">
                     <a class="fa fa-edit" href=""></a>
                     <form action="{{ route('siswa.delete', ['id' => $student['id']]) }}" method="post">
                       @csrf
                       @method('delete')
-                      <button class="fa fa-trash" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
+                      <button type="submit" class="btn btn-icons" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="material-icons ms-auto text-dark cursor-pointer" title="Hapus Siswa">delete</i></button>
                     </form>
                   </td>
                 </tr>
