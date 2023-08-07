@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth', 'notsiswa']], function () {
 
     Route::get('/create-siswa', [FirebaseController::class, 'create_form'])->name('siswa.form');
     Route::post('/create-siswa', [FirebaseController::class, 'create'])->name('siswa.create');
+    // Route::get('/delete/{id}', [FirebaseController::class, 'delete'])->name('siswa.delete');
+    Route::delete('/delete-siswa/{id}', [FirebaseController::class, 'delete'])->name('siswa.delete');
 });
 
 

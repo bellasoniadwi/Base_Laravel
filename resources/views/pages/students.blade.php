@@ -82,7 +82,11 @@
                   </td>
                   <td>
                     <a class="fa fa-edit" href=""></a>
-                    <a class="fa fa-trash" href="{{ route('siswa.delete', $student['id']) }}"></a>
+                    <form action="{{ route('siswa.delete', ['id' => $student['id']]) }}" method="post">
+                      @csrf
+                      @method('delete')
+                      <button class="fa fa-trash" type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
+                    </form>
                   </td>
                 </tr>
                 @endforeach

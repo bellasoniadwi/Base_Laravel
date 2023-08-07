@@ -165,6 +165,15 @@ class FirebaseController extends Controller
             return back()->withInput();
         }
     }
+    Public function delete($documentId)
+    {
+        try {
+            app('firebase.firestore')->database()->collection('students')->document($documentId)->delete();
+            return redirect()->route('siswa');
+        } catch (FirebaseException $e) {
+            return response()->json(['message' => 'Gagal menghapus data student: ' . $e->getMessage()], 500);
+        }
+    }
     
 
     public function exportExcel()
