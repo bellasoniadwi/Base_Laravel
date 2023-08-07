@@ -196,7 +196,9 @@ class StudentController extends Controller
 
                 $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
             } else {
-                $imagePath = null;
+                $firestore = app(Firestore::class);
+                $studentRef = $firestore->database()->collection('students')->document($documentId)->snapshot();
+                $imagePath = $studentRef->get('image');
             }
         
                 $firestore = app(Firestore::class);

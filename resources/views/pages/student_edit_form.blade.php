@@ -63,7 +63,7 @@
                                 <label class="form-label"></label>
                                 <input type="file" id="image" name="image"
                                     class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}"
-                                    required autocomplete="image"/>
+                                    autocomplete="image"/>
                                     
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +75,6 @@
                             <div class="col-md-5">
                                 <img width="80px" height="100px" src="{{ $siswa['image'] }}" alt="user1">
                             </div>
-                            
                         </div>
                         <div class="text-center">
                             <button type="submit"
