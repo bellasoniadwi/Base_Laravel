@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Kreait\Firebase\Contract\Auth;
 use Kreait\Firebase\Exception\FirebaseException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
@@ -138,6 +139,7 @@ class UserController extends Controller
                 'didaftarkan_oleh' => $name,
             ]);
 
+            Alert::success('Berhasil', 'Akun baru berhasil ditambahkan');
             return redirect()->route('user.index');
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());

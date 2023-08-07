@@ -88,7 +88,7 @@
                         <i class="material-icons" title="Edit Card">edit</i>
                       </a>
 
-                      <button type="submit" class="btn btn-icons" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                      <button type="submit" class="btn btn-icons show_confirm">
                         <i class="material-icons ms-auto text-dark cursor-pointer" title="Hapus Siswa">delete</i>
                       </button>
                     </form>
@@ -102,4 +102,30 @@
       </div>
     </div>
   </div>
+@endsection
+@section('js')
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript">
+ 
+     $('.show_confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal({
+              title: `Yakin ingin menghapus data?`,
+              text: "Data ini akan terhapus permanen setelah anda menyetujui pesan ini",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
+            } else {
+                swal("Data Anda Aman!");
+            }
+          });
+      });
+  
+</script>
 @endsection

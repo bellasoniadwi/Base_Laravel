@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Laravel\Firebase\Facades\Firebase;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class StudentController extends Controller
 {
@@ -109,6 +110,7 @@ class StudentController extends Controller
             'nim' => ['required', 'string', 'max:255'],
             'angkatan' => ['required', 'string', 'max:255'],
             'keterangan' => ['required', 'string', 'max:255'],
+            'image' => ['mimes:png,jpg,jpeg', 'max:2048']
         ]);
     }
 
@@ -168,7 +170,8 @@ class StudentController extends Controller
                 'longitude' => $request->input('longitude'),
                 'image' => $imagePath,
             ]);
-    
+            
+            Alert::success('Data absensi siswa berhasil ditambahkan');
             return redirect()->route('siswa');
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());
@@ -216,6 +219,7 @@ class StudentController extends Controller
                     ['path' => 'image', 'value' => $imagePath],
                 ]);
 
+                Alert::success('Data absensi siswa berhasil diubah');
                 return redirect()->route('siswa');
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());
@@ -227,6 +231,7 @@ class StudentController extends Controller
     {
         try {
             app('firebase.firestore')->database()->collection('students')->document($documentId)->delete();
+            Alert::success('Data absensi siswa berhasil dihapus');
             return redirect()->route('siswa');
         } catch (FirebaseException $e) {
             return response()->json(['message' => 'Gagal menghapus data student: ' . $e->getMessage()], 500);
