@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class FirebaseController extends Controller
 {
@@ -124,6 +125,23 @@ class FirebaseController extends Controller
     
             $this->validator($request->all())->validate();
     
+            // Handle image upload and store its path in Firebase Storage
+            if ($request->hasFile('image')) {
+                $imageFile = $request->file('image');
+
+                $storage = Firebase::storage();
+                $storagePath = 'images/' . $imageFile->getClientOriginalName();
+
+                $storage->getBucket()->upload(
+                    file_get_contents($imageFile->getRealPath()),
+                    ['name' => $storagePath]
+                );
+
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour()); // Generate a signed URL for public access
+            } else {
+                $imagePath = null; // If no image is uploaded, set the image path to null
+            }
+    
             $firestore = app(Firestore::class);
             $userRef = $firestore->database()->collection('students');
             $tanggal = new Timestamp(new DateTime());
@@ -137,6 +155,7 @@ class FirebaseController extends Controller
                 'timestamps' => $tanggal,
                 'latitude' => $request->input('latitude'),
                 'longitude' => $request->input('longitude'),
+                'image' => $imagePath,
             ]);
     
             return redirect()->route('siswa');

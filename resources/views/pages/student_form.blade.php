@@ -14,7 +14,7 @@
                     Form Tambah Data Siswa
                 </h4>
                 <div class="card-body">
-                    <form id="studentForm" role="form" method="POST" action="{{ route('siswa.create') }}">
+                    <form id="studentForm" role="form" method="POST" action="{{ route('siswa.create') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
                             <label class="form-label">Name</label>
@@ -58,17 +58,17 @@
                                 <option value="Sakit">Sakit</option>
                             </select>
                         </div>
-                        {{-- <div class="input-group input-group-outline mb-3">
+                        <div class="input-group input-group-outline mb-3">
                             <label class="form-label"></label>
                             <input type="file" id="image" name="image"
                                 class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}"
-                                required autocomplete="image" onchange="return showPreview(this)">
+                                required autocomplete="image">
                             @error('image')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div> --}}
+                        </div>
                         <div class="text-center">
                             <button type="submit"
                                 class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Simpan</button>
