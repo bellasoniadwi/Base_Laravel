@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Kreait\Firebase\Contract\Auth;
 use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -67,6 +68,7 @@ class UserController extends Controller
             $angkatan = $documentData['angkatan'] ?? null;
             $role = $documentData['role'] ?? null;
             $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
+            $image = $documentData['image'] ?? null;
 
             $data[] = [
                 'name' => $name,
@@ -74,7 +76,8 @@ class UserController extends Controller
                 'nomor_induk' => $nomor_induk,
                 'angkatan' => $angkatan,
                 'role' => $role,
-                'pendaftar' => $pendaftar
+                'pendaftar' => $pendaftar,
+                'image' => $image
             ];
         }
 
@@ -101,6 +104,7 @@ class UserController extends Controller
             'angkatan' => ['string', 'max:4'],
             'password' => ['required', 'string', 'min:8'],
             'role' => ['required', 'string', 'max:255'],
+            'image' => ['mimes:png,jpg,jpeg', 'max:2048']
         ]);
     }
 
@@ -126,6 +130,25 @@ class UserController extends Controller
             }
 
             $this->validator($request->all())->validate();
+
+            // Handle image upload and store its path in Firebase Storage
+            if ($request->hasFile('image')) {
+                $imageFile = $request->file('image');
+
+                $storage = Firebase::storage();
+                $uniqueId = microtime(true) * 1000;
+                $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
+
+                $storage->getBucket()->upload(
+                    file_get_contents($imageFile->getRealPath()),
+                    ['name' => $storagePath]
+                );
+
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
+            } else {
+                $imagePath = null; // If no image is uploaded, set the image path to null
+            }
+
             $userProperties = [
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
@@ -134,6 +157,7 @@ class UserController extends Controller
                 'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
+                'image' => $imagePath
             ];
   
             $createdUser = $this->auth->createUser($userProperties);
@@ -147,6 +171,7 @@ class UserController extends Controller
                 'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
+                'image' => $imagePath
             ]);
 
             Alert::success('Akun baru berhasil ditambahkan');

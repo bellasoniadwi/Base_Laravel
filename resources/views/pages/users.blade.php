@@ -23,6 +23,7 @@
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nomor Induk</th>
@@ -36,6 +37,9 @@
               <tbody>
                 @foreach($data as $user)
                 <tr>
+                  <td class="align-middle text-center">
+                    <img src="{{ $user['image'] }}" class="avatar avatar-lg me-3 border-radius-lg" alt="user1">
+                  </td>
                   <td class="align-middle text-center">
                     <p class="text-xs font-weight-bold mb-0">{{ $user['name'] }}</p>
                   </td>
