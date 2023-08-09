@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Auth::routes();
+//reset password
+Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
+Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify');
+Route::get('/password/reset', [App\Http\Controllers\Auth\ResetController::class, 'index'])->name('index');
+Route::post('/password/reset/store', [App\Http\Controllers\Auth\ResetController::class, 'store'])->name('store');
+
 Route::group(['middleware' => ['auth', 'notsiswa']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
 
@@ -41,6 +47,9 @@ Route::group(['middleware' => ['auth', 'notsiswa']], function () {
 
     // delete
     Route::delete('/delete-siswa/{id}', [StudentController::class, 'delete'])->name('siswa.delete');
+
+    
+    
 });
 
 

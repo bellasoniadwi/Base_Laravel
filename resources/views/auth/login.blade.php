@@ -64,6 +64,11 @@
                                         Don't have an account?
                                         <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                                     </p> --}}
+                                    <div class="text-center">
+                                        <a class="btn btn-link text-center" href="{{ route('index') }}" style="text-decoration: none;">
+                                            Lupa Password?
+                                        </a>
+                                    </div>
                                 </form>
                             </div>
                         </div>

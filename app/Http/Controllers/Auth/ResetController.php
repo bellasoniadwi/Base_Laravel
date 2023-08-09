@@ -69,8 +69,8 @@ class ResetController extends Controller
         try {
             $email = $request->email;
             $link = app('firebase.auth')->sendPasswordResetLink($email);
-            Session::flash('message', 'An email has been sent. Please check your inbox.');
-            return back()->withInput();
+            // Session::flash('message', 'An email has been sent. Please check your inbox.');
+            return view("reset.password-sent");
         } catch (FirebaseException $e) {
           $error = str_replace('_', ' ', $e->getMessage());
           Session::flash('error', $error);

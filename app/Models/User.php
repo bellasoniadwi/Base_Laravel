@@ -31,6 +31,9 @@ class User extends Authenticatable
      public function getAuthIdentifier(){
         return $this->localId;
      }
+     public function getAuthIdentifierEmail() {
+        return 'localId';
+     }
 
     // /**
     //  * The attributes that should be hidden for serialization.

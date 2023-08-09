@@ -53,56 +53,13 @@
               <div class="card card-plain">
                 <div class="card-header">
                   
-                  <h4 class="font-weight-bolder">Reset Password</h4>
-                  <p class="mb-0">Masukkan Email Anda</p>
+                  <h4 class="font-weight-bolder">Email Reset Password telah dikirimkan. Cek Email Anda sekarang!</h4>
+                  <div class="text-center">
+                    <a class="btn btn-link text-center" href="/login" style="text-decoration: none;">
+                        KEMBALI
+                    </a>
                 </div>
-                <div class="card-body">
-                  @if(Session::has('message'))
-              <div class="alert alert-info alert-dismissible fade show">
-                {{ Session::get('message') }}
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-              </div>
-            @endif
-
-            @if(Session::has('error'))
-              <div class="alert alert-danger alert-dismissible fade show">
-                {{ Session::get('error') }}
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-              </div>
-            @endif
-
-            @if ($errors->any())
-              @foreach ($errors->all() as $error)
-                <div class="alert alert-danger alert-dismissible fade show">
-                  {{ $error }}
-                  <button type="button" class="close" data-dismiss="alert">&times;</button>
                 </div>
-              @endforeach
-            @endif
-
-            {!! Form::open(['method'=>'POST', 'action'=> 'App\Http\Controllers\Auth\ResetController@store']) !!}
-
-            <div class="form-group">
-              {{-- {!! Form::label('email', 'Email') !!} --}}
-              <div class="input-group input-group-outline mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autocomplete="email">
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-              {{-- {!! Form::email('email', null, ['class'=>'form-control'])!!} --}}
-            </div>
-
-            
-
-            <div class="form-group">
-              {!! Form::submit('Sent Email', ['class'=>'btn btn-primary']) !!}
-            </div>
-
-            {!! Form::close() !!}
           </div>
 
         </div>
