@@ -28,28 +28,6 @@
                             @enderror
                         </div>
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Nim</label>
-                            <input type="number" id="nim" name="nim"
-                                class="form-control @error('nim') is-invalid @enderror" value="{{ old('nim') }}"
-                                required autocomplete="nim">
-                            @error('nim')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Angkatan</label>
-                            <input type="number" id="angkatan" name="angkatan"
-                                class="form-control @error('angkatan') is-invalid @enderror" value="{{ old('angkatan') }}"
-                                required autocomplete="angkatan">
-                            @error('angkatan')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="input-group input-group-outline mb-3">
                             <label class="form-label"></label>
                             <select class="form-control has-feedback-right" id="keterangan" name="keterangan" value="{{ old('keterangan') }}">
                                 <option value=""> --Pilih Keterangan--</option>

@@ -30,8 +30,6 @@
                 <tr>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NIM</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Angkatan</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jam Datang</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kode QR</th>
@@ -48,14 +46,6 @@
                   </td>
                   <td class="align-middle text-center">
                     <p class="text-xs font-weight-bold mb-0">{{ $student['name'] }}</p>
-                  </td>
-                  <td class="align-middle text-center">
-                    <p class="text-xs font-weight-bold mb-0">{{ $student['nim'] }}</p>
-                    {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
-                  </td>
-                  <td class="align-middle text-center">
-                    {{-- <span class="badge badge-sm bg-gradient-success">Online</span> --}}
-                    <span class="text-secondary text-xs font-weight-bold">{{ $student['angkatan'] }}</span>
                   </td>
                   <td class="align-middle text-center">
                     <span class="text-secondary text-xs font-weight-bold">{{ date('Y-m-d', strtotime($student['timestamps'])) }}</span>
@@ -80,7 +70,7 @@
                       <a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs fas fa-map-marker-alt" data-toggle="tooltip" data-original-title="Edit user"></a>
                     </span>
                   </td>
-                  <td class="align-middle">
+                  <td class="align-middle text-center">
                     <form action="{{ route('siswa.delete', ['id' => $student['id']]) }}" method="post">
                       @csrf
                       @method('delete')

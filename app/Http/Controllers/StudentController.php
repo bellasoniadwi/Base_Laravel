@@ -65,8 +65,6 @@ class StudentController extends Controller
                 $documentId = $doc->id();
 
                 $name = $documentData['name'] ?? null;
-                $nim = $documentData['nim'] ?? null;
-                $angkatan = $documentData['angkatan'] ?? null;
                 $timestamps = $documentData['timestamps'] ?? null;
                 $image = $documentData['image'] ?? null;
                 $latitude = $documentData['latitude'] ?? null;
@@ -75,8 +73,6 @@ class StudentController extends Controller
 
                 $data[] = [
                     'name' => $name,
-                    'nim' => $nim,
-                    'angkatan' => $angkatan,
                     'timestamps' => $timestamps,
                     'image' => $image,
                     'latitude' => $latitude,
@@ -107,8 +103,6 @@ class StudentController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'nim' => ['required', 'string', 'max:255'],
-            'angkatan' => ['required', 'string', 'max:255'],
             'keterangan' => ['required', 'string', 'max:255'],
             'image' => ['mimes:png,jpg,jpeg', 'max:2048']
         ]);
@@ -161,8 +155,6 @@ class StudentController extends Controller
 
             $studentRef->add([
                 'name' => $request->input('name'),
-                'nim' => $request->input('nim'),
-                'angkatan' => $request->input('angkatan'),
                 'keterangan' => $request->input('keterangan'),
                 'pelatih' => $name,
                 'timestamps' => $tanggal,
@@ -210,8 +202,6 @@ class StudentController extends Controller
 
                 $studentRef->update([
                     ['path' => 'name', 'value' => $request->input('name')],
-                    ['path' => 'nim', 'value' => $request->input('nim')],
-                    ['path' => 'angkatan', 'value' => $request->input('angkatan')],
                     ['path' => 'keterangan', 'value' => $request->input('keterangan')],
                     ['path' => 'timestamps', 'value' => $tanggal],
                     ['path' => 'latitude', 'value' => $request->input('latitude')],

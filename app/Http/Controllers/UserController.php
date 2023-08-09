@@ -63,12 +63,16 @@ class UserController extends Controller
 
             $name = $documentData['name'] ?? null;
             $email = $documentData['email'] ?? null;
+            $nomor_induk = $documentData['nomor_induk'] ?? null;
+            $angkatan = $documentData['angkatan'] ?? null;
             $role = $documentData['role'] ?? null;
             $pendaftar = $documentData['didaftarkan_oleh'] ?? null;
 
             $data[] = [
                 'name' => $name,
                 'email' => $email,
+                'nomor_induk' => $nomor_induk,
+                'angkatan' => $angkatan,
                 'role' => $role,
                 'pendaftar' => $pendaftar
             ];
@@ -93,6 +97,8 @@ class UserController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
+            'nomor_induk' => ['string', 'max:12'],
+            'angkatan' => ['string', 'max:4'],
             'password' => ['required', 'string', 'min:8'],
             'role' => ['required', 'string', 'max:255'],
         ]);
@@ -124,6 +130,8 @@ class UserController extends Controller
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'name' => $request->input('name'),
+                'nomor_induk' => $request->input('nomor_induk'),
+                'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
             ];
@@ -135,11 +143,13 @@ class UserController extends Controller
             $userRef->set([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'nomor_induk' => $request->input('nomor_induk'),
+                'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
             ]);
 
-            Alert::success('Berhasil', 'Akun baru berhasil ditambahkan');
+            Alert::success('Akun baru berhasil ditambahkan');
             return redirect()->route('user.index');
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());
