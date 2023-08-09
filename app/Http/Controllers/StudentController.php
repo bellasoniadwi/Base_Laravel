@@ -86,14 +86,72 @@ class StudentController extends Controller
     }
 
     public function create_form() {
-        return view('pages.student_form');
+        $user = auth()->user();
+
+        if ($user) {
+            $id = $user->localId;
+
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+            } else {
+                $nama_akun = "Name not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+        }
+
+        $siswaCollection = app('firebase.firestore')->database()->collection('users')->where('didaftarkan_oleh', '=', $nama_akun);
+    
+        // Mengambil dokumen dari collection dan mengubahnya menjadi array
+        $siswaDocuments = $siswaCollection->documents();
+        $list_siswa = [];
+        foreach ($siswaDocuments as $document) {
+            $list_siswa[] = $document->data();
+        }
+    
+        return view('pages.student_form', ['list_siswa' => $list_siswa]);
     }
 
     public function edit_form($documentId) {
+        $user = auth()->user();
+
+        if ($user) {
+            $id = $user->localId;
+
+            $firestore = app('firebase.firestore');
+            $database = $firestore->database();
+
+            $userDocRef = $database->collection('users')->document($id);
+            $userSnapshot = $userDocRef->snapshot();
+
+            if ($userSnapshot->exists()) {
+                $nama_akun = $userSnapshot->data()['name'];
+            } else {
+                $nama_akun = "Name not found";
+            }
+        } else {
+            $nama_akun = "Name ga kebaca";
+        }
+
+        $siswaCollection = app('firebase.firestore')->database()->collection('users')->where('didaftarkan_oleh', '=', $nama_akun);
+    
+        // Mengambil dokumen dari collection dan mengubahnya menjadi array
+        $siswaDocuments = $siswaCollection->documents();
+        $list_siswa = [];
+        foreach ($siswaDocuments as $document) {
+            $list_siswa[] = $document->data();
+        }
+
         try {
             $siswa = app('firebase.firestore')->database()->collection('students')->document($documentId)->snapshot();
 
-            return view('pages.student_edit_form', compact('siswa', 'documentId'));
+            return view('pages.student_edit_form', compact('siswa', 'documentId', 'list_siswa'));
         } catch (FirebaseException $e) {
             return response()->json(['message' => 'Gagal mengambil data student: ' . $e->getMessage()], 500);
         }

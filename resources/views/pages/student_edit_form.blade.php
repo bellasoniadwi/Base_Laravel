@@ -17,37 +17,15 @@
                     <form id="studentForm" role="form" method="POST" action="{{ route('siswa.update', $documentId) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" id="name" name="name"
-                                class="form-control @error('name') is-invalid @enderror" value="{{ $siswa->get('name') }}"
-                                required autocomplete="name" autofocus>
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Nim</label>
-                            <input type="number" id="nim" name="nim"
-                                class="form-control @error('nim') is-invalid @enderror" value="{{ $siswa->get('nim') }}"
-                                required autocomplete="nim">
-                            @error('nim')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Angkatan</label>
-                            <input type="number" id="angkatan" name="angkatan"
-                                class="form-control @error('angkatan') is-invalid @enderror" value="{{ $siswa->get('angkatan') }}"
-                                required autocomplete="angkatan">
-                            @error('angkatan')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <label class="form-label"></label>
+                            <select class="form-control has-feedback-right" id="name" name="name" value="{{ old('name') }}">
+                                @foreach ($list_siswa as $list)
+                                <option value="{{ $list['name'] }}"
+                                    @if ($list['name'] == $siswa->get('name')) selected
+                                    @endif>{{$list['name']}}
+                                  </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="input-group input-group-outline mb-3">
                             <label class="form-label"></label>

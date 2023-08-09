@@ -17,15 +17,13 @@
                     <form id="studentForm" role="form" method="POST" action="{{ route('siswa.create') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" id="name" name="name"
-                                class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
-                                required autocomplete="name">
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <label class="form-label"></label>
+                            <select class="form-control has-feedback-right" id="name" name="name" value="{{ old('name') }}">
+                                <option value=""> --Pilih Siswa--</option>
+                                @foreach ($list_siswa as $siswa)
+                                    <option value="{{ $siswa['name'] }}" {{ old('name') == $siswa['name'] ? 'selected' : '' }}>{{ $siswa['name'] }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="input-group input-group-outline mb-3">
                             <label class="form-label"></label>
