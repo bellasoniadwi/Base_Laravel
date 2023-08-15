@@ -42,8 +42,8 @@ class StudentsExport implements FromCollection, WithHeadings
 
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
-        } elseif ($role_akun == 'Pelatih') {
-            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+        } elseif ($role_akun == 'Instruktur') {
+            $query = $collectionReference->where('instruktur', '=', $nama_akun);
         } else {
             $query = $collectionReference->orderBy('name');
         }
@@ -56,7 +56,7 @@ class StudentsExport implements FromCollection, WithHeadings
             $nim = $documentData['nim'] ?? null;
             $angkatan = $documentData['angkatan'] ?? null;
             $keterangan = $documentData['keterangan'] ?? null;
-            $pelatih = $documentData['pelatih'] ?? null;
+            $instruktur = $documentData['instruktur'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
             $image = $documentData['image'] ?? null;
             $latitude = $documentData['latitude'] ?? null;
@@ -70,7 +70,7 @@ class StudentsExport implements FromCollection, WithHeadings
                 'nim' => $nim,
                 'angkatan' => $angkatan,
                 'keterangan' => $keterangan,
-                'pelatih' => $pelatih,
+                'instruktur' => $instruktur,
                 'timestamps' => $timestamps,
                 'image' => $image,
                 'latitude' => $latitude,

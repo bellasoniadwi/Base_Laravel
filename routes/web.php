@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\ResetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +20,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 //reset password
 Route::post('login/{provider}/callback', 'Auth\LoginController@handleCallback');
-Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify');
-Route::get('/password/reset', [App\Http\Controllers\Auth\ResetController::class, 'index'])->name('index');
-Route::post('/password/reset/store', [App\Http\Controllers\Auth\ResetController::class, 'store'])->name('store');
+Route::get('/email/verify', [ResetController::class, 'verify_email'])->name('verify');
+Route::get('/password/reset', [ResetController::class, 'index'])->name('index');
+Route::post('/password/reset/store', [ResetController::class, 'store'])->name('store');
 
 Route::group(['middleware' => ['auth', 'notsiswa']], function () {
     Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');

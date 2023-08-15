@@ -48,8 +48,8 @@ class UserController extends Controller
         $data = [];
 
         if ($role_akun == 'Superadmin') {
-            $query = $collectionReference->where('role', '=', 'Pelatih')->orderBy('name');
-        } elseif ($role_akun == 'Pelatih') {
+            $query = $collectionReference->where('role', '=', 'Instruktur')->orderBy('name');
+        } elseif ($role_akun == 'Instruktur') {
             $query = $collectionReference->where('didaftarkan_oleh', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');

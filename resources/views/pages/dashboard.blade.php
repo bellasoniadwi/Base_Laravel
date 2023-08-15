@@ -23,7 +23,7 @@
     <div class="row">
       <!-- export rekap data from firestore -->
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <a href="{{ route('export.kehadiran') }}" class="btn btn-info">Export Excel</a>
+        <a href="{{ route('export.kehadiran') }}" class="btn btn-success">Export Excel</a>
       </div>
       <!-- end rekap students data from firestore -->
     </div>
@@ -51,7 +51,7 @@
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-info shadow-success text-center border-radius-xl mt-n4 position-absolute">
                         <i class="material-icons opacity-10">person</i>
                     </div>
                     <div class="text-end pt-1">
@@ -121,7 +121,7 @@
     <div class="row">
       <!-- export rekap data from firestore -->
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-        <a href="{{ route('export.rekap') }}" class="btn btn-info">Export Excel</a>
+        <a href="{{ route('export.rekap') }}" class="btn btn-success">Export Excel</a>
       </div>
       <!-- end rekap students data from firestore -->
         <div class="col-12">

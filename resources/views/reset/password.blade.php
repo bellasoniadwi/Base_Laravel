@@ -84,8 +84,9 @@
 
             <div class="form-group">
               {{-- {!! Form::label('email', 'Email') !!} --}}
+              <label>Email</label>
               <div class="input-group input-group-outline mb-3">
-                <label class="form-label">Email</label>
+                
                 <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required autocomplete="email">
                 @error('email')
                     <span class="invalid-feedback" role="alert">

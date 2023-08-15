@@ -7,7 +7,7 @@ use Google\Cloud\Firestore\FirestoreClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class IsPelatih
+class IsInstruktur
 {
     /**
      * Handle an incoming request.
@@ -31,7 +31,7 @@ class IsPelatih
             // Mengakses data dari snapshot menggunakan metode data()
             $userData = $userSnapshot->data();
 
-            if ($userSnapshot->exists() && isset($userData['role']) && $userData['role'] === "Pelatih") {
+            if ($userSnapshot->exists() && isset($userData['role']) && $userData['role'] === "Instruktur") {
                 return $next($request);
             }
         }

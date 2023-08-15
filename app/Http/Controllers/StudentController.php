@@ -51,8 +51,8 @@ class StudentController extends Controller
 
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
-        } elseif ($role_akun == 'Pelatih') {
-            $query = $collectionReference->where('pelatih', '=', $nama_akun)->orderBy('name', 'asc');
+        } elseif ($role_akun == 'Instruktur') {
+            $query = $collectionReference->where('instruktur', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
         }
@@ -214,7 +214,7 @@ class StudentController extends Controller
             $studentRef->add([
                 'name' => $request->input('name'),
                 'keterangan' => $request->input('keterangan'),
-                'pelatih' => $name,
+                'instruktur' => $name,
                 'timestamps' => $tanggal,
                 'latitude' => $request->input('latitude'),
                 'longitude' => $request->input('longitude'),

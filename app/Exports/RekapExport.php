@@ -41,8 +41,8 @@ class RekapExport implements FromCollection, WithHeadings
 
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
-        } elseif ($role_akun == 'Pelatih') {
-            $query = $collectionReference->where('pelatih', '=', $nama_akun);
+        } elseif ($role_akun == 'Instruktur') {
+            $query = $collectionReference->where('instruktur', '=', $nama_akun);
         } else {
             $query = $collectionReference->orderBy('name');
         }

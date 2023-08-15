@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider {
          return $userSnapshot->exists() && isset($userData['role']) && $userData['role'] === "Superadmin";
      });
 
-     Gate::define('pelatih', function ($user) {
+     Gate::define('instruktur', function ($user) {
          $id = $user->localId;
 
          $firestore = app('firebase.firestore');
@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider {
 
          $userData = $userSnapshot->data();
 
-         return $userSnapshot->exists() && isset($userData['role']) && $userData['role'] === "Pelatih";
+         return $userSnapshot->exists() && isset($userData['role']) && $userData['role'] === "Instruktur";
    });
    }
 }
