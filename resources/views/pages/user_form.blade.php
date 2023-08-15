@@ -91,7 +91,7 @@
                                 @endcan
                             </select>
                         </div>
-                        <div class="input-group input-group-outline mb-3">
+                        {{-- <div class="input-group input-group-outline mb-3">
                             <div class="col-md-8">
                                 <label class="form-label"></label>
                                 <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror" value="{{ old('image') }}" autocomplete="image" onchange="previewImage(event)">
@@ -105,7 +105,7 @@
                             <div class="col-md-3">
                                 <img id="preview" src="#" alt="Preview Gambar" style="max-width: 80px; max-height: 100px; display: none;">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="text-center">
                             <button type="submit"
                                 class="btn btn-lg bg-gradient-info btn-lg w-100 mt-4 mb-0">Simpan</button>

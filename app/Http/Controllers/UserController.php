@@ -104,7 +104,7 @@ class UserController extends Controller
             'angkatan' => ['string', 'max:4'],
             'password' => ['required', 'string', 'min:8'],
             'role' => ['required', 'string', 'max:255'],
-            'image' => ['mimes:png,jpg,jpeg', 'max:2048']
+            // 'image' => ['mimes:png,jpg,jpeg', 'max:2048']
         ]);
     }
 
@@ -132,22 +132,22 @@ class UserController extends Controller
             $this->validator($request->all())->validate();
 
             // Handle image upload and store its path in Firebase Storage
-            if ($request->hasFile('image')) {
-                $imageFile = $request->file('image');
+            // if ($request->hasFile('image')) {
+            //     $imageFile = $request->file('image');
 
-                $storage = Firebase::storage();
-                $uniqueId = microtime(true) * 1000;
-                $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
+            //     $storage = Firebase::storage();
+            //     $uniqueId = microtime(true) * 1000;
+            //     $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
-                $storage->getBucket()->upload(
-                    file_get_contents($imageFile->getRealPath()),
-                    ['name' => $storagePath]
-                );
+            //     $storage->getBucket()->upload(
+            //         file_get_contents($imageFile->getRealPath()),
+            //         ['name' => $storagePath]
+            //     );
 
-                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
-            } else {
-                $imagePath = null; // If no image is uploaded, set the image path to null
-            }
+            //     $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
+            // } else {
+            //     $imagePath = null; // If no image is uploaded, set the image path to null
+            // }
 
             $userProperties = [
                 'email' => $request->input('email'),
@@ -157,7 +157,7 @@ class UserController extends Controller
                 'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
-                'image' => $imagePath
+                'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
             ];
   
             $createdUser = $this->auth->createUser($userProperties);
@@ -171,7 +171,7 @@ class UserController extends Controller
                 'angkatan' => $request->input('angkatan'),
                 'role' => $request->input('role'),
                 'didaftarkan_oleh' => $name,
-                'image' => $imagePath
+                'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
             ]);
 
             Alert::success('Akun baru berhasil ditambahkan');
