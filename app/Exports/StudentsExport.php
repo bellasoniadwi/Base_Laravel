@@ -24,13 +24,19 @@ class StudentsExport implements FromCollection, WithHeadings
             if ($userSnapshot->exists()) {
                 $nama_akun = $userSnapshot->data()['name'];
                 $role_akun = $userSnapshot->data()['role'];
+                $nomor_induk_akun = $userSnapshot->data()['nomor_induk'];
+                $angkatan_akun = $userSnapshot->data()['angkatan'];
             } else {
                 $nama_akun = "Name not found";
                 $role_akun = "Role not found";
+                $nomor_induk_akun = "Nomor Induk not found";
+                $angkatan_akun = "Angkatan not found";
             }
         } else {
             $nama_akun = "Name ga kebaca";
             $role_akun = "Role ga kebaca";
+            $nomor_induk_akun = "Nomor Induk not found";
+            $angkatan_akun = "Angkatan not found";
         }
 
         $firestore = new FirestoreClient([
@@ -49,28 +55,30 @@ class StudentsExport implements FromCollection, WithHeadings
         }
 
         $documents = $query->documents();
+        
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $id = $doc->id();
             $name = $documentData['name'] ?? null;
-            $nim = $documentData['nim'] ?? null;
-            $angkatan = $documentData['angkatan'] ?? null;
+            $nomor_induk_akun = $userSnapshot->data()['nomor_induk'];
+                $angkatan_akun = $userSnapshot->data()['angkatan'];
             $keterangan = $documentData['keterangan'] ?? null;
-            $instruktur = $documentData['instruktur'] ?? null;
+            $pelatih = $documentData['pelatih'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
             $image = $documentData['image'] ?? null;
             $latitude = $documentData['latitude'] ?? null;
             $longitude = $documentData['longitude'] ?? null;
             
             
+            
 
             $data[] = [
                 'id' => $id,
                 'name' => $name,
-                'nim' => $nim,
-                'angkatan' => $angkatan,
+                'nomor_induk' => $nomor_induk_akun,
+                'angkatan' => $angkatan_akun,
                 'keterangan' => $keterangan,
-                'instruktur' => $instruktur,
+                'pelatih' => $pelatih,
                 'timestamps' => $timestamps,
                 'image' => $image,
                 'latitude' => $latitude,
@@ -85,6 +93,6 @@ class StudentsExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['ID', 'Name', 'NIM', 'Angkatan', 'Keterangan','Pembimbing','Timestamps', 'Image', 'Latitude', 'Longitude' ];
+        return ['ID', 'Nama', 'Nomor Induk', 'Angkatan', 'Keterangan','Instruktur','Timestamps', 'Image', 'Latitude', 'Longitude' ];
     }
 }

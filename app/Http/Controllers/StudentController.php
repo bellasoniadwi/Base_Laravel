@@ -52,7 +52,7 @@ class StudentController extends Controller
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
         } elseif ($role_akun == 'Instruktur') {
-            $query = $collectionReference->where('instruktur', '=', $nama_akun)->orderBy('name', 'asc');
+            $query = $collectionReference->where('pelatih', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
             $query = $collectionReference->orderBy('name');
         }
