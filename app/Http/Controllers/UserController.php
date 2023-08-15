@@ -103,7 +103,7 @@ class UserController extends Controller
             'nomor_induk' => ['string', 'max:12'],
             'angkatan' => ['string', 'max:4'],
             'password' => ['required', 'string', 'min:8'],
-            'role' => ['required', 'string', 'max:255'],
+            // 'role' => ['required', 'string', 'max:255'],
             // 'image' => ['mimes:png,jpg,jpeg', 'max:2048']
         ]);
     }
@@ -122,6 +122,7 @@ class UserController extends Controller
     
                 if ($userSnapshot->exists()) {
                     $name = $userSnapshot->data()['name'];
+                    $role_akun = $userSnapshot->data()['role'];
                 } else {
                     $name = "Tidak Dikenali";
                 }
@@ -131,51 +132,64 @@ class UserController extends Controller
 
             $this->validator($request->all())->validate();
 
-            // Handle image upload and store its path in Firebase Storage
-            // if ($request->hasFile('image')) {
-            //     $imageFile = $request->file('image');
-
-            //     $storage = Firebase::storage();
-            //     $uniqueId = microtime(true) * 1000;
-            //     $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
-
-            //     $storage->getBucket()->upload(
-            //         file_get_contents($imageFile->getRealPath()),
-            //         ['name' => $storagePath]
-            //     );
-
-            //     $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
-            // } else {
-            //     $imagePath = null; // If no image is uploaded, set the image path to null
-            // }
-
-            $userProperties = [
-                'email' => $request->input('email'),
-                'password' => $request->input('password'),
-                'name' => $request->input('name'),
-                'nomor_induk' => $request->input('nomor_induk'),
-                'angkatan' => $request->input('angkatan'),
-                'role' => $request->input('role'),
-                'didaftarkan_oleh' => $name,
-                'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
-            ];
-  
-            $createdUser = $this->auth->createUser($userProperties);
-
-            $firestore = app(Firestore::class);
-            $userRef = $firestore->database()->collection('users')->document($createdUser->uid);
-            $userRef->set([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'nomor_induk' => $request->input('nomor_induk'),
-                'angkatan' => $request->input('angkatan'),
-                'role' => $request->input('role'),
-                'didaftarkan_oleh' => $name,
-                'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
-            ]);
-
-            Alert::success('Akun baru berhasil ditambahkan');
-            return redirect()->route('user.index');
+                       if ($role_akun == 'Superadmin') {
+                $userProperties = [
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                    'name' => $request->input('name'),
+                    'nomor_induk' => $request->input('nomor_induk'),
+                    'angkatan' => $request->input('angkatan'),
+                    'role' => 'Instruktur',
+                    'didaftarkan_oleh' => $name,
+                    'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
+                ];
+      
+                $createdUser = $this->auth->createUser($userProperties);
+    
+                $firestore = app(Firestore::class);
+                $userRef = $firestore->database()->collection('users')->document($createdUser->uid);
+                $userRef->set([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'nomor_induk' => $request->input('nomor_induk'),
+                    'angkatan' => $request->input('angkatan'),
+                    'role' => 'Instruktur',
+                    'didaftarkan_oleh' => $name,
+                    'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
+                ]);
+    
+                Alert::success('Akun baru berhasil ditambahkan');
+                return redirect()->route('user.index');
+            } elseif($role_akun == 'Instruktur'){
+                $userProperties = [
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                    'name' => $request->input('name'),
+                    'nomor_induk' => $request->input('nomor_induk'),
+                    'angkatan' => $request->input('angkatan'),
+                    'role' => 'Siswa',
+                    'didaftarkan_oleh' => $name,
+                    'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
+                ];
+      
+                $createdUser = $this->auth->createUser($userProperties);
+    
+                $firestore = app(Firestore::class);
+                $userRef = $firestore->database()->collection('users')->document($createdUser->uid);
+                $userRef->set([
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'nomor_induk' => $request->input('nomor_induk'),
+                    'angkatan' => $request->input('angkatan'),
+                    'role' => 'Siswa',
+                    'didaftarkan_oleh' => $name,
+                    'image' => 'https://firebasestorage.googleapis.com/v0/b/project-sinarindo.appspot.com/o/images%2F1571715403.png?alt=media&token=99bb2051-8526-4c6f-acd2-bcecbf513719'
+                ]);
+    
+                Alert::success('Akun baru berhasil ditambahkan');
+                return redirect()->route('user.index');
+            }
+            
         } catch (FirebaseException $e) {
             Session::flash('error', $e->getMessage());
             return back()->withInput();

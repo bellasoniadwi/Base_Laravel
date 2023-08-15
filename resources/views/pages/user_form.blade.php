@@ -80,7 +80,7 @@
                                 </span>
                             @enderror
                         </div>
-                        <div class="input-group input-group-outline mb-3">
+                        {{-- <div class="input-group input-group-outline mb-3">
                             <label class="form-label"></label>
                             <select class="form-control has-feedback-right" id="role" name="role" value="{{ old('role') }}">
                                 @can('superadmin')
@@ -90,7 +90,7 @@
                                 <option value="Siswa">Siswa</option>
                                 @endcan
                             </select>
-                        </div>
+                        </div> --}}
                         {{-- <div class="input-group input-group-outline mb-3">
                             <div class="col-md-8">
                                 <label class="form-label"></label>
