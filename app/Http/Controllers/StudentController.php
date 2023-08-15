@@ -286,7 +286,7 @@ class StudentController extends Controller
         }
     }
     
-
+    //export excel untuk data bukti kehadiran siswa
     public function exportExcel()
     {
         return Excel::download(new StudentsExport(), 'bukti_kehadiran.xlsx');

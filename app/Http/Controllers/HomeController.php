@@ -155,12 +155,13 @@ class HomeController extends Controller
         return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth', 'currentMonthYearNow'));
     }
 
-
+    //export Rekap jumlah siswa serta keterangannya pada dashboard
     public function exportExcel()
     {
         return Excel::download(new RekapExport(), 'rekap_siswa.xlsx');
     }
 
+    //export Rekap Kehadiran pada dashboard
     public function exportExcelkehadiran()
     {
         return Excel::download(new KehadiranExport(), 'rekap_kehadiran.xlsx');
