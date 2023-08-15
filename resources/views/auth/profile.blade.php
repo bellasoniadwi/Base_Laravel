@@ -53,7 +53,7 @@
 
             <div class="form-group row mb-0 mr-4">
               <div class="col-md-8 offset-md-4 text-right">
-                {!! Form::submit('Save', ['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Save', ['class'=>'btn btn-info']) !!}
               </div>
             </div>
 
@@ -84,7 +84,7 @@
 
               <div class="form-group row mb-0 mr-4">
                 <div class="col-md-8 offset-md-4 text-right">
-                  {!! Form::submit('Save', ['class'=>'btn btn-primary']) !!}
+                  {!! Form::submit('Save', ['class'=>'btn btn-info']) !!}
                 </div>
               </div>
               {!! Form::close() !!}

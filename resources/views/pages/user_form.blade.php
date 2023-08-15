@@ -4,7 +4,7 @@
     Daftar Akun
 @endsection
 
-@section('users', 'active bg-gradient-primary')
+@section('users', 'active bg-gradient-info')
 
 @section('content')
         <div class="row justofy-content-center">
@@ -108,7 +108,7 @@
                         </div>
                         <div class="text-center">
                             <button type="submit"
-                                class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Simpan</button>
+                                class="btn btn-lg bg-gradient-info btn-lg w-100 mt-4 mb-0">Simpan</button>
                         </div>
                         <div class="form-row">
                             <script>
