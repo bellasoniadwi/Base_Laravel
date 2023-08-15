@@ -60,14 +60,14 @@
                     <span class="text-secondary text-xs font-weight-bold">{{ $timestamp->format('H:i:s') }}</span>
                   </td>
                   <td>
-                    <div class="visible-print text-center">
+                    <div class="visible-print align-middle text-center">
                       {!! QrCode::size(60)->generate($student['id']); !!} 
                       <p style="font-size: 10px;">{{ $student['id'] }} </p> 
                     </div>
                   </td>                
                   <td class="align-middle text-center">
-                    <span class="badge badge-sm bg-gradient-success">
-                      <a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs fas fa-map-marker-alt" data-toggle="tooltip" data-original-title="Edit user"></a>
+                    <span class="badge badge-sm bg-gradient-primary">
+                      <a href="{{ $student['googleMapsUrl'] }}" class="text-light font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user"> lihat lokasi</a>
                     </span>
                   </td>
                   <td class="align-middle text-center">
