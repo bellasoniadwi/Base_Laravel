@@ -194,7 +194,7 @@ class StudentController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $uniqueId = microtime(true) * 1000;
+                $uniqueId = microtime(true) * 10000;
                 $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
                 $storage->getBucket()->upload(
@@ -202,7 +202,7 @@ class StudentController extends Controller
                     ['name' => $storagePath]
                 );
 
-                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addYears(10));
             } else {
                 $imagePath = null; // If no image is uploaded, set the image path to null
             }
@@ -239,7 +239,7 @@ class StudentController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $uniqueId = microtime(true) * 1000;
+                $uniqueId = microtime(true) * 10000;
                 $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
                 $storage->getBucket()->upload(
@@ -247,7 +247,7 @@ class StudentController extends Controller
                     ['name' => $storagePath]
                 );
 
-                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addHour());
+                $imagePath = $storage->getBucket()->object($storagePath)->signedUrl(now()->addYears(10));
             } else {
                 $firestore = app(Firestore::class);
                 $studentRef = $firestore->database()->collection('students')->document($documentId)->snapshot();
