@@ -140,6 +140,7 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Masuk</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Izin</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Sakit</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanpa Keterangan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -156,6 +157,9 @@
                       </td>
                       <td class="align-middle text-center">
                         <p class="text-xs font-weight-bold mb-0">{{ $total['sakit'] }}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <p class="text-xs font-weight-bold mb-0">{{ $totalWithoutKeteranganPerName[$name] }}</p>
                       </td>
                     </tr>
                     @endforeach
