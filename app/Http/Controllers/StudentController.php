@@ -194,7 +194,7 @@ class StudentController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $uniqueId = microtime(true) * 1000;
+                $uniqueId = microtime(true) * 10000;
                 $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
                 $storage->getBucket()->upload(
@@ -239,7 +239,7 @@ class StudentController extends Controller
                 $imageFile = $request->file('image');
 
                 $storage = Firebase::storage();
-                $uniqueId = microtime(true) * 1000;
+                $uniqueId = microtime(true) * 10000;
                 $storagePath = 'images/' . $uniqueId . '_' . now()->format('Y-m-d') . '.jpg';
 
                 $storage->getBucket()->upload(
