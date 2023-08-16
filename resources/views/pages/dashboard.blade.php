@@ -43,7 +43,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-                <p class="mb-0">Tercatat <span class="text-success text-sm font-weight-bolder">{{ $totalStudentInAMonth }}</span> siswa bulan ini</p>
+                <p class="mb-0">Tercatat <span class="text-success text-sm font-weight-bolder">{{ $totalStudentInAMonth }}</span> akun pengguna</p>
             </div>
         </div>
     </div>
