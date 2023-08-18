@@ -51,8 +51,8 @@ class RekapExport implements FromCollection, WithHeadings
         $totals = [];
         $rekapData = [];
 
+        // ambil data di bulan dan tahun ini
         $currentMonthYear = date('Y-m', strtotime('now'));
-        $currentMonthYearNow = date('M Y', strtotime('now'));
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
