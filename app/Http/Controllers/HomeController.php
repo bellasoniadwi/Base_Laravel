@@ -161,7 +161,7 @@ class HomeController extends Controller
         $userDocuments = $collectionReferenceUser->documents();
         
         if ($role_akun == 'Superadmin') {
-            $queryUser = $collectionReferenceUser->orderBy('name');
+            $queryUser = $collectionReferenceUser->where('didaftarkan_oleh', '=','Developer' )->orderBy('name', 'asc');
         } elseif ($role_akun == 'Instruktur') {
             $queryUser = $collectionReferenceUser->where('didaftarkan_oleh', '=', $nama_akun)->orderBy('name', 'asc');
         } else {
