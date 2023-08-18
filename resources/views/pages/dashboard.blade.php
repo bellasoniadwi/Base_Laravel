@@ -37,7 +37,7 @@
                     <i class="material-icons opacity-10">person</i>
                 </div>
                 <div class="text-end pt-1">
-                    <p class="text-sm mb-0 text-capitalize">Jumlah Siswa</p>
+                    <p class="text-sm mb-0 text-capitalize">Jumlah Pengguna</p>
                     <h4 class="mb-0">{{ $totalStudentInAMonth }}</h4>
                 </div>
             </div>
@@ -141,6 +141,7 @@
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Izin</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah Sakit</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanpa Keterangan</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Predikat</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -160,6 +161,9 @@
                       </td>
                       <td class="align-middle text-center">
                         <p class="text-xs font-weight-bold mb-0">{{ $totalWithoutKeteranganPerName[$name] }}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <p class="text-xs font-weight-bold mb-0">{{ $predikat }}</p>
                       </td>
                     </tr>
                     @endforeach

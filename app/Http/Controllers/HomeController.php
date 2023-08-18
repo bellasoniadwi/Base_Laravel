@@ -18,11 +18,10 @@ class HomeController extends Controller
 
     public function dashboard()
     {
+        // fetch nama, role
         $user = auth()->user();
-
         if ($user) {
             $id = $user->localId;
-
             $firestore = app('firebase.firestore');
             $database = $firestore->database();
             
@@ -40,19 +39,12 @@ class HomeController extends Controller
             $nama_akun = "Name ga kebaca";
             $role_akun = "Role ga kebaca";
         }
-
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
-
         $collectionReference = $firestore->collection('students');
 
-        
-
-        // Inisialisasi array untuk menyimpan total keterangan per field "name"
-        $totals = [];
-        $dataUser = [];
-
+        // set data yang ditampilkan per role/nama
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
         } elseif ($role_akun == 'Instruktur') {
@@ -60,46 +52,24 @@ class HomeController extends Controller
         } else {
             $query = $collectionReference->orderBy('name');
         }
-
-        
-
         $documents = $query->documents();
 
-        
-        
+        // Inisialisasi array
+        $totals = [];
+        $dataUser = [];
+        $totalKeteranganPerName = [];
+        $totalWithoutKeteranganPerName = [];
 
-        // Get the current month and year in the UTC timezone
+        // ambil data di bulan dan tahun ini
         $currentMonthYear = date('Y-m', strtotime('now'));
         $currentMonthYearNow = date('M Y', strtotime('now'));
-
-        // Hitung jumlah hari dalam bulan ini (dengan mengabaikan hari Sabtu dan Minggu)
-        $currentYear = date('Y');
-        $currentMonth = date('m');
-        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
-        $activeDaysInMonth = 0;
-
-        for ($day = 1; $day <= $daysInMonth; $day++) {
-            $currentDayOfWeek = date('N', strtotime("$currentYear-$currentMonth-$day"));
-            if ($currentDayOfWeek >= 1 && $currentDayOfWeek <= 5) { // Hari Senin-Jumat
-                $activeDaysInMonth++;
-            }
-        }
-
-        // Inisialisasi array untuk menyimpan total keterangan per field "name"
-        $totalKeteranganPerName = [];
-
-        
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
             $name = $documentData['name'] ?? null;
-
-            // Check if the data is recorded in the current month
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
             if ($recordedMonthYear === $currentMonthYear) {
-
-                // Jika field "name" belum ada dalam array $totals, tambahkan dengan nilai awal 0
                 if (!isset($totals[$name])) {
                     $totals[$name] = [
                         'masuk' => 0,
@@ -107,7 +77,6 @@ class HomeController extends Controller
                         'sakit' => 0,
                     ];
                 }
-
                 // Hitung total keterangan "Masuk", "Izin", dan "Sakit" per field "name"
                 if ($keterangan === "Masuk") {
                     $totals[$name]['masuk']++;
@@ -131,35 +100,42 @@ class HomeController extends Controller
             }
         }
 
-        // Hitung total keseluruhan dari masing-masing keterangan
+        // Hitung jumlah hari dalam bulan ini (dengan mengabaikan hari Sabtu dan Minggu)
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+        $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
+        $activeDaysInMonth = 0;
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $currentDayOfWeek = date('N', strtotime("$currentYear-$currentMonth-$day"));
+            if ($currentDayOfWeek >= 1 && $currentDayOfWeek <= 5) { // Hari Senin-Jumat
+                $activeDaysInMonth++;
+            }
+        }
+        
+        // Inisiasi nilai awal
         $totalMasuk = 0;
         $totalIzin = 0;
         $totalSakit = 0;
+        $totalStudentInAMonth = 0;
 
-        // Looping untuk menghitung totalMasuk, totalIzin, dan totalSakit dari value field "nama" yang sama
+        // menghitung totalMasuk, totalIzin, dan totalSakit dari value field "nama" yang sama
         foreach ($totals as $nameTotal) {
             $totalMasuk += $nameTotal['masuk'];
             $totalIzin += $nameTotal['izin'];
             $totalSakit += $nameTotal['sakit'];
         }
 
-        $totalWithoutKeteranganPerName = [];
         // Menghitung total tanpa keterangan per nama
         foreach ($totals as $name => $nameTotal) {
             $totalWithoutKeteranganPerName[$name] = $activeDaysInMonth - $totalKeteranganPerName[$name];
         }
 
-
         // Menghitung jumlah total tanpa keterangan
         $totalWithoutKeterangan = $activeDaysInMonth - ($totalMasuk + $totalIzin + $totalSakit);
-
-        // Inisialisasi variabel
-        $totalStudentInAMonth = 0;
 
         //Start function untuk menampilkan Akun Siswa Tercatat di dashboard
         $collectionReferenceUser = $firestore->collection('users');
         $userDocuments = $collectionReferenceUser->documents();
-        
         if ($role_akun == 'Superadmin') {
             $queryUser = $collectionReferenceUser->where('didaftarkan_oleh', '=','Developer' )->orderBy('name', 'asc');
         } elseif ($role_akun == 'Instruktur') {
@@ -167,27 +143,34 @@ class HomeController extends Controller
         } else {
             $queryUser = $collectionReferenceUser->orderBy('name');
         }
-
         $documentsUser = $queryUser->documents();
 
+        //menghitung students yang tercatatat pada firestore collections users
         foreach ($documentsUser as $docUser) {
-                //menghitung students yang tercatatat pada firestore collections users
-                $totalStudentInAMonth++;
+            $totalStudentInAMonth++;
 
             $documentDataUser = $docUser->data();
             $name = $documentDataUser['name'] ?? null;
 
-            //menghitung students yang tercatatat pada firestore collections users
             $dataUser[] = [
                 'name' => $name
             ];
         }
-
-        //menghitung students yang tercatatat pada firestore collections users
         $totalStudents = count($dataUser);
-        //End function untuk menampilkan Akun Siswa Tercatat di dashboard
 
-        return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth', 'currentMonthYearNow', 'totalWithoutKeteranganPerName'));
+        // Menentukan predikat berdasarkan totalMasuk
+        $predikat = '';
+        if ($totalMasuk >= 18 && $totalMasuk <= 24) {
+            $predikat = 'A';
+        } elseif ($totalMasuk >= 15 && $totalMasuk <= 17) {
+            $predikat = 'B';
+        } elseif ($totalMasuk >= 12 && $totalMasuk <= 14) {
+            $predikat = 'C';
+        } else {
+            $predikat = 'D';
+        }
+
+        return view('pages.dashboard', compact('totals', 'totalMasuk', 'totalIzin', 'totalSakit', 'totalStudents', 'totalStudentInAMonth', 'currentMonthYearNow', 'totalWithoutKeteranganPerName', 'predikat'));
 
     }
 
