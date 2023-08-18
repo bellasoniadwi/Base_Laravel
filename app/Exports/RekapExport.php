@@ -85,11 +85,24 @@ class RekapExport implements FromCollection, WithHeadings
                     $totals[$name]['sakit']++;
                 }
             }
-            
-            
         }
 
-        
+        // pengambilan bulan dalam indonesia
+        $monthNames = [
+            'Jan' => 'Januari',
+            'Feb' => 'Februari',
+            'Mar' => 'Maret',
+            'Apr' => 'April',
+            'May' => 'Mei',
+            'Jun' => 'Juni',
+            'Jul' => 'Juli',
+            'Aug' => 'Agustus',
+            'Sep' => 'September',
+            'Oct' => 'Oktober',
+            'Nov' => 'November',
+            'Dec' => 'Desember',
+        ];
+
         foreach ($totals as $name => $nameTotal) {
             // penentuan predikat
             $totalMasuk = $nameTotal['masuk'];
@@ -116,9 +129,12 @@ class RekapExport implements FromCollection, WithHeadings
             //     $pengali = 50000;
             // }
 
+            // ganti bulan dari array
+            $indonesianMonth = $monthNames[date('M', strtotime($timestamps))];
+
             $rekapData[] = [
                 'name' => $name,
-                'month' => date('M', strtotime($timestamps)),
+                'month' => $indonesianMonth,
                 'year' => date('Y', strtotime($timestamps)),
                 'total_masuk' => $totalMasuk,
                 'total_izin' => $nameTotal['izin'],

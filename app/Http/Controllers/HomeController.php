@@ -60,7 +60,6 @@ class HomeController extends Controller
 
         // ambil data di bulan dan tahun ini
         $currentMonthYear = date('Y-m', strtotime('now'));
-        $currentMonthYearNow = date('M Y', strtotime('now'));
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
@@ -97,6 +96,24 @@ class HomeController extends Controller
                 }
             }
         }
+
+        // menampilkan bulan dan tahun ini dalam indonesia
+        $currentMonthYearNow = date('M Y', strtotime('now'));
+        $monthNames = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember',
+        ];
+        $currentMonthYearNow = $monthNames[date('m')] . ' ' . date('Y');
 
         // Hitung jumlah hari dalam bulan ini (dengan mengabaikan hari Sabtu dan Minggu)
         $currentYear = date('Y');
