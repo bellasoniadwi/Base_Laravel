@@ -99,7 +99,8 @@ class RekapExport implements FromCollection, WithHeadings
                 'total_masuk' => $totalMasuk,
                 'total_izin' => $nameTotal['izin'],
                 'total_sakit' => $nameTotal['sakit'],
-                'predikat' => $predikat
+                'predikat' => $predikat,
+                'gaji' => $totalMasuk * 100000  // asumsi tidak ada per posisi, nilai disamakan
             ];
         }
 
@@ -108,6 +109,6 @@ class RekapExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit', 'Predikat'];
+        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit', 'Predikat', 'gaji'];
     }
 }
