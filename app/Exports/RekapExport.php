@@ -10,8 +10,8 @@ class RekapExport implements FromCollection, WithHeadings
 {
     public function collection()
     {
+        // fetch nama, role
         $user = auth()->user();
-
         if ($user) {
             $id = $user->localId;
 
@@ -32,13 +32,12 @@ class RekapExport implements FromCollection, WithHeadings
             $nama_akun = "Name ga kebaca";
             $role_akun = "Role ga kebaca";
         }
-
         $firestore = new FirestoreClient([
             'projectId' => 'project-sinarindo',
         ]);
-
         $collectionReference = $firestore->collection('students');
 
+        // set data yang ditampilkan per role/nama
         if ($role_akun == 'Superadmin') {
             $query = $collectionReference->orderBy('name');
         } elseif ($role_akun == 'Instruktur') {
@@ -46,21 +45,21 @@ class RekapExport implements FromCollection, WithHeadings
         } else {
             $query = $collectionReference->orderBy('name');
         }
-
         $documents = $query->documents();
 
+        // Inisialisasi array
         $totals = [];
+        $rekapData = [];
 
+        $currentMonthYear = date('Y-m', strtotime('now'));
+        $currentMonthYearNow = date('M Y', strtotime('now'));
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
             $name = $documentData['name'] ?? null;
-
-            // Check if the data is recorded in the current month
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
-            if (!isset($totals[$recordedMonthYear])) {
-                // Initialize the totals for each name
+            if ($recordedMonthYear === $currentMonthYear) {
                 if (!isset($totals[$name])) {
                     $totals[$name] = [
                         'masuk' => 0,
@@ -68,8 +67,7 @@ class RekapExport implements FromCollection, WithHeadings
                         'sakit' => 0,
                     ];
                 }
-
-                // Calculate totals for each name
+                // Menghitung total per nama
                 if ($keterangan === "Masuk") {
                     $totals[$name]['masuk']++;
                 } elseif ($keterangan === "Izin") {
@@ -80,15 +78,28 @@ class RekapExport implements FromCollection, WithHeadings
             }
         }
 
-        $rekapData = [];
+        
         foreach ($totals as $name => $nameTotal) {
+            // penentuan predikat
+            $totalMasuk = $nameTotal['masuk'];
+            if ($totalMasuk >= 18 && $totalMasuk <= 24) {
+                $predikat = 'A';
+            } elseif ($totalMasuk >= 15 && $totalMasuk <= 17) {
+                $predikat = 'B';
+            } elseif ($totalMasuk >= 12 && $totalMasuk <= 14) {
+                $predikat = 'C';
+            } else {
+                $predikat = 'D';
+            }
+
             $rekapData[] = [
                 'name' => $name,
                 'month' => date('M', strtotime($timestamps)),
                 'year' => date('Y', strtotime($timestamps)),
-                'total_masuk' => $nameTotal['masuk'],
+                'total_masuk' => $totalMasuk,
                 'total_izin' => $nameTotal['izin'],
                 'total_sakit' => $nameTotal['sakit'],
+                'predikat' => $predikat
             ];
         }
 
@@ -97,6 +108,6 @@ class RekapExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit'];
+        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit', 'Predikat'];
     }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exports\KehadiranExport;
 use Google\Cloud\Firestore\FirestoreClient;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RekapExport;
 
