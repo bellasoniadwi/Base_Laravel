@@ -51,15 +51,34 @@ class KehadiranExport implements FromCollection, WithHeadings
 
         $totals = [];
 
+        // pengambilan bulan dalam indonesia
+        $monthNames = [
+            'Jan' => 'Januari',
+            'Feb' => 'Februari',
+            'Mar' => 'Maret',
+            'Apr' => 'April',
+            'May' => 'Mei',
+            'Jun' => 'Juni',
+            'Jul' => 'Juli',
+            'Aug' => 'Agustus',
+            'Sep' => 'September',
+            'Oct' => 'Oktober',
+            'Nov' => 'November',
+            'Dec' => 'Desember',
+        ];
+
         foreach ($documents as $doc) {
             $documentData = $doc->data();
             $keterangan = $documentData['keterangan'] ?? null;
             $timestamps = $documentData['timestamps'] ?? null;
 
+            // ganti bulan dari array
+            $indonesianMonth = $monthNames[date('M', strtotime($timestamps))];
+
             $recordedMonthYear = date('Y-m', strtotime($timestamps));
                 if (!isset($totals[$recordedMonthYear])) {
                     $totals[$recordedMonthYear] = [
-                        'month' => date('M', strtotime($timestamps)),
+                        'month' => $indonesianMonth,
                         'year' => date('Y', strtotime($timestamps)),
                         'total_students' => 0,
                         'total_masuk' => 0,

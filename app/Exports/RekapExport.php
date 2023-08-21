@@ -50,6 +50,15 @@ class RekapExport implements FromCollection, WithHeadings
         // Inisialisasi array
         $totals = [];
         $rekapData = [];
+        // $userData = []; //perhitungan gaji
+
+        // digunakan dalam Perhitungan gaji
+        // $usersCollection = $firestore->collection('users')->documents();
+        // foreach ($usersCollection as $userDoc) {
+        //     $userData[$userDoc->data()['name']] = [
+        //         'jabatan' => $userDoc->data()['jabatan'],
+        //     ];
+        // }
 
         // ambil data di bulan dan tahun ini
         $currentMonthYear = date('Y-m', strtotime('now'));
@@ -78,7 +87,22 @@ class RekapExport implements FromCollection, WithHeadings
             }
         }
 
-        
+        // pengambilan bulan dalam indonesia
+        $monthNames = [
+            'Jan' => 'Januari',
+            'Feb' => 'Februari',
+            'Mar' => 'Maret',
+            'Apr' => 'April',
+            'May' => 'Mei',
+            'Jun' => 'Juni',
+            'Jul' => 'Juli',
+            'Aug' => 'Agustus',
+            'Sep' => 'September',
+            'Oct' => 'Oktober',
+            'Nov' => 'November',
+            'Dec' => 'Desember',
+        ];
+
         foreach ($totals as $name => $nameTotal) {
             // penentuan predikat
             $totalMasuk = $nameTotal['masuk'];
@@ -92,15 +116,30 @@ class RekapExport implements FromCollection, WithHeadings
                 $predikat = 'D';
             }
 
+            // KODE PROGRAM UNTUK GAJI
+            // $userDetails = $userData[$name] ?? null;
+            // $userJabatan = $userDetails['jabatan'] ?? '';
+            // if ($userJabatan == 'Golongan 1') {
+            //     $pengali = 100000;
+            // } elseif ($userJabatan == 'Golongan 2') {
+            //     $pengali = 80000;
+            // } elseif ($userJabatan == 'Golongan 3') {
+            //     $pengali = 60000;
+            // }else {
+            //     $pengali = 50000;
+            // }
+
+            // ganti bulan dari array
+            $indonesianMonth = $monthNames[date('M', strtotime($timestamps))];
+
             $rekapData[] = [
                 'name' => $name,
-                'month' => date('M', strtotime($timestamps)),
+                'month' => $indonesianMonth,
                 'year' => date('Y', strtotime($timestamps)),
                 'total_masuk' => $totalMasuk,
                 'total_izin' => $nameTotal['izin'],
                 'total_sakit' => $nameTotal['sakit'],
-                'predikat' => $predikat,
-                'gaji' => $totalMasuk * 100000  // asumsi tidak ada per posisi, nilai disamakan
+                'predikat' => $predikat
             ];
         }
 
@@ -109,6 +148,6 @@ class RekapExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit', 'Predikat', 'gaji'];
+        return ['Name', 'Bulan', 'Tahun', 'Jumlah Masuk', 'Jumlah Izin', 'Jumlah Sakit', 'Predikat'];
     }
 }
