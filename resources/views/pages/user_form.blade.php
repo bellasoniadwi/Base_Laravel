@@ -24,7 +24,7 @@
                     <form role="form" method="POST" action="{{ route('user.create') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Name</label>
+                            <label class="form-label {{ old('name') ? 'active' : '' }}">Name</label>
                             <input type="text" id="name" name="name"
                                 class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}"
                                 required autocomplete="name">
@@ -35,7 +35,7 @@
                             @enderror
                         </div>
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Email</label>
+                            <label class="form-label {{ old('email') ? 'active' : '' }}">Email</label>
                             <input type="email" id="email" name="email"
                                 class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
                                 required autocomplete="email">
@@ -46,7 +46,7 @@
                             @enderror
                         </div>
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Nomor Induk</label>
+                            <label class="form-label {{ old('nomor_induk') ? 'active' : '' }}">Nomor Induk</label>
                             <input type="number" id="nomor_induk" name="nomor_induk"
                                 class="form-control @error('nomor_induk') is-invalid @enderror" value="{{ old('nomor_induk') }}"
                                 required autocomplete="nomor_induk">
@@ -58,7 +58,7 @@
                         </div>
                         @can('instruktur')
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Angkatan</label>
+                            <label class="form-label {{ old('angkatan') ? 'active' : '' }}">Angkatan</label>
                             <input type="number" id="angkatan" name="angkatan"
                                 class="form-control @error('angkatan') is-invalid @enderror" value="{{ old('angkatan') }}"
                                 required autocomplete="angkatan">
@@ -70,7 +70,7 @@
                         </div>
                         @endcan
                         <div class="input-group input-group-outline mb-3">
-                            <label class="form-label">Password</label>
+                            <label class="form-label {{ old('password') ? 'active' : '' }}">Password</label>
                             <input type="password" id="password" name="password"
                                 class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}"
                                 required autocomplete="password">
